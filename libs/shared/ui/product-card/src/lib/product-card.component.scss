@@ -1,0 +1,40 @@
+:host {
+  display: block;
+}
+
+mat-card {
+  max-width: 300px;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+
+mat-card-header {
+  margin-bottom: 16px;
+}
+
+mat-card-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.price {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1976d2;
+  margin: 8px 0;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px;
+
+  button {
+    mat-icon {
+      color: #e91e63;
+    }
+  }
+}

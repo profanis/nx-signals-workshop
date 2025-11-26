@@ -1,0 +1,32 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ product().name }}</mat-card-title>
+  </mat-card-header>
+
+  <img
+    mat-card-image
+    [ngSrc]="product().imageUrl"
+    [alt]="product().name"
+    width="300"
+    height="200"
+    priority
+  />
+
+  <mat-card-content>
+    <p class="price">${{ product().price.toFixed(2) }}</p>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button
+      mat-icon-button
+      (click)="onToggleFavorite()"
+      [attr.aria-label]="
+        product().isFavorite ? 'Remove from favorites' : 'Add to favorites'
+      "
+    >
+      <mat-icon>{{
+        product().isFavorite ? 'favorite' : 'favorite_border'
+      }}</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

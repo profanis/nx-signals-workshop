@@ -1,0 +1,14 @@
+<section class="hero">
+  <div class="hero-content">
+    <h1 class="hero-title">{{ title() }}</h1>
+    <p class="hero-subtitle">{{ subtitle() }}</p>
+    <button
+      mat-raised-button
+      color="primary"
+      class="hero-cta"
+      (click)="onCtaClick()"
+    >
+      {{ ctaText() }}
+    </button>
+  </div>
+</section>
