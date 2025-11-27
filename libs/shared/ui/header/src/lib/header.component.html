@@ -1,0 +1,54 @@
+<mat-toolbar color="primary" class="header-toolbar">
+  <!-- Brand Name -->
+  <a routerLink="/" class="brand-name">
+    <h1>GreenHaven</h1>
+  </a>
+
+  <!-- Spacer -->
+  <span class="spacer"></span>
+
+  <!-- Navigation Links -->
+  <nav class="nav-links">
+    <a
+      routerLink="/"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-link"
+      mat-button
+    >
+      Home
+    </a>
+
+    <a
+      routerLink="/catalogue"
+      routerLinkActive="active"
+      class="nav-link"
+      mat-button
+    >
+      Catalogue
+    </a>
+
+    <a
+      routerLink="/wishlist"
+      routerLinkActive="active"
+      class="nav-link nav-link-icon"
+      mat-icon-button
+      aria-label="View wishlist"
+    >
+      <mat-icon>favorite</mat-icon>
+    </a>
+
+    <a
+      routerLink="/cart"
+      routerLinkActive="active"
+      class="nav-link nav-link-icon"
+      mat-icon-button
+      [matBadge]="cartItemCount"
+      [matBadgeHidden]="cartItemCount === 0"
+      matBadgeColor="accent"
+      aria-label="View shopping cart"
+    >
+      <mat-icon>shopping_cart</mat-icon>
+    </a>
+  </nav>
+</mat-toolbar>

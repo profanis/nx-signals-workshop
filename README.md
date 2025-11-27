@@ -26,3 +26,6 @@
 
 7. Create the feature-catalogue library
   > npx nx g @nx/angular:library --name=feature-catalogue --directory=libs/feature-catalogue --importPath=@workspace/feature-catalogue --no-interactive
+
+8. Create the ui-header library
+  > npx nx g @nx/angular:library --name=ui-header --directory=libs/shared/ui/header --importPath=@workspace/shared/ui/ui-header --no-interactive

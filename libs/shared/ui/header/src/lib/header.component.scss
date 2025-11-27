@@ -1,0 +1,115 @@
+:host {
+  display: block;
+}
+
+.header-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 0 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.brand-name {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: white;
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &.active {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+.nav-link-icon {
+  mat-icon {
+    color: white;
+  }
+
+  &.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .header-toolbar {
+    padding: 0 8px;
+  }
+
+  .brand-name {
+    h1 {
+      font-size: 1.25rem;
+    }
+  }
+
+  .nav-links {
+    gap: 4px;
+  }
+
+  .nav-link:not(.nav-link-icon) {
+    font-size: 0.875rem;
+    padding: 0 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-name {
+    h1 {
+      font-size: 1.125rem;
+    }
+  }
+
+  // Hide text links on very small screens, keep only icons
+  .nav-link:not(.nav-link-icon) {
+    font-size: 0;
+    min-width: 40px;
+    padding: 0 4px;
+
+    &::after {
+      font-size: 0.75rem;
+    }
+  }
+
+  .nav-link:nth-child(1)::after {
+    content: 'Home';
+  }
+
+  .nav-link:nth-child(2)::after {
+    content: 'Shop';
+  }
+}
