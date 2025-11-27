@@ -18,7 +18,7 @@ export interface Product {
 }
 
 @Component({
-  selector: 'app-product-card',
+  selector: 'lib-ui-product-card',
   imports: [MatCardModule, MatButtonModule, MatIconModule, NgOptimizedImage],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',

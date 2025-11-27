@@ -2,7 +2,7 @@ import { Component, input, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'lib-hero',
+  selector: 'lib-ui-hero',
   standalone: true,
   imports: [MatButtonModule],
   templateUrl: './hero.component.html',

@@ -18,7 +18,9 @@
       "@workspace/shared/ui/ui-hero": ["libs/shared/ui/hero/src/index.ts"],
       "@workspace/shared/ui/ui-product-card": [
         "libs/shared/ui/product-card/src/index.ts"
-      ]
+      ],
+      "@workspace/feature-home": ["libs/feature-home/src/index.ts"],
+      "@workspace/feature-catalogue": ["libs/feature-catalogue/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

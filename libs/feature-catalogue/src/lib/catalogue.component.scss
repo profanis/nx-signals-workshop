@@ -1,0 +1,146 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.catalogue-container {
+  height: 100%;
+  min-height: 100vh;
+}
+
+.catalogue-sidenav {
+  width: 250px;
+  padding: 24px;
+  background-color: #f5f5f5;
+  border-right: 1px solid #e0e0e0;
+
+  h3 {
+    margin: 0 0 16px 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .filter-placeholder {
+    color: #666;
+    font-size: 0.875rem;
+    font-style: italic;
+  }
+}
+
+.catalogue-content {
+  background-color: #fafafa;
+}
+
+.content-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.catalogue-header {
+  text-align: center;
+  margin-bottom: 32px;
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    color: #333;
+  }
+
+  .catalogue-subtitle {
+    font-size: 1.125rem;
+    color: #666;
+    margin: 0;
+  }
+}
+
+.search-section {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+
+  .search-field {
+    width: 100%;
+    max-width: 600px;
+  }
+}
+
+.results-summary {
+  margin-bottom: 24px;
+  text-align: center;
+
+  p {
+    color: #666;
+    font-size: 0.875rem;
+    margin: 0;
+  }
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 64px 24px;
+
+  p {
+    font-size: 1.125rem;
+    color: #666;
+    margin: 0 0 24px 0;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 1024px) {
+  .catalogue-sidenav {
+    width: 200px;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .catalogue-sidenav {
+    display: none;
+  }
+
+  .catalogue-header {
+    h1 {
+      font-size: 2rem;
+    }
+
+    .catalogue-subtitle {
+      font-size: 1rem;
+    }
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .content-wrapper {
+    padding: 24px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .catalogue-header {
+    h1 {
+      font-size: 1.75rem;
+    }
+  }
+}
