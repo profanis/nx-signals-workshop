@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { Product } from '@workspace/catalogue/types';
+import { Product } from '@workshop/catalogue-types';
 @Component({
   selector: 'lib-ui-product-card',
   imports: [

@@ -1,5 +1,5 @@
 export default {
-  displayName: 'ui-product-card',
+  displayName: 'shared-ui-product-card',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory: '../../../../coverage/libs/shared/ui/product-card',

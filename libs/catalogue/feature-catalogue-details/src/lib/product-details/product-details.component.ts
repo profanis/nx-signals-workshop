@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { NgOptimizedImage } from '@angular/common';
-import { Product, Comment } from '@workspace/catalogue/types';
+import { Product, Comment } from '@workshop/catalogue-types';
 
 @Component({
   selector: 'lib-product-details',

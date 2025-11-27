@@ -1,5 +1,5 @@
 export default {
-  displayName: 'ui-hero',
+  displayName: 'shared-ui-hero',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory: '../../../../coverage/libs/shared/ui/hero',

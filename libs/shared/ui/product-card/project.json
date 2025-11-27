@@ -1,5 +1,5 @@
 {
-  "name": "ui-product-card",
+  "name": "shared-ui-product-card",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/ui/product-card/src",
   "prefix": "lib",

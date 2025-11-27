@@ -15,22 +15,22 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@workspace/shared/ui/ui-hero": ["libs/shared/ui/hero/src/index.ts"],
-      "@workspace/shared/ui/ui-product-card": [
-        "libs/shared/ui/product-card/src/index.ts"
-      ],
-      "@workspace/shared/ui/ui-header": ["libs/shared/ui/header/src/index.ts"],
-      "@workspace/catalogue/feature-catalogue-list": [
-        "libs/catalogue/feature-catalogue-list/src/index.ts"
-      ],
-      "@workspace/catalogue/feature-catalogue-details": [
-        "libs/catalogue/feature-catalogue-details/src/index.ts"
-      ],
-      "@workspace/catalogue/types": ["libs/catalogue/types/src/index.ts"],
       "@workshop/catalogue-feature-shell": [
         "libs/catalogue/feature-shell/src/index.ts"
       ],
-      "@workshop/home-feature-home": ["libs/home/feature-home/src/index.ts"]
+      "@workshop/home-feature-home": ["libs/home/feature-home/src/index.ts"],
+      "@workshop/catalogue-types": ["libs/catalogue/types/src/index.ts"],
+      "@workshop/catalogue/feature-catalogue-details": [
+        "libs/catalogue/feature-catalogue-details/src/index.ts"
+      ],
+      "@workshop/catalogue-feature-catalogue-list": [
+        "libs/catalogue/feature-catalogue-list/src/index.ts"
+      ],
+      "@workshop/shared/ui-header": ["libs/shared/ui/header/src/index.ts"],
+      "@workshop/shared/ui-hero": ["libs/shared/ui/hero/src/index.ts"],
+      "@workshop/shared/ui-product-card": [
+        "libs/shared/ui/product-card/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

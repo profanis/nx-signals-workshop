@@ -1,5 +1,5 @@
 export default {
-  displayName: 'ui-header',
+  displayName: 'shared-ui-header',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory: '../../../../coverage/libs/shared/ui/header',

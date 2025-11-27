@@ -4,14 +4,14 @@ export const catalogueRoutes: Route[] = [
   {
     path: '',
     loadComponent: () =>
-      import('@workspace/catalogue/feature-catalogue-list').then(
+      import('@workshop/catalogue-feature-catalogue-list').then(
         (m) => m.CatalogueComponent
       ),
   },
   {
     path: ':id',
     loadComponent: () =>
-      import('@workspace/catalogue/feature-catalogue-details').then(
+      import('@workshop/catalogue/feature-catalogue-details').then(
         (m) => m.ProductDetailsComponent
       ),
   },

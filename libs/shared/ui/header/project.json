@@ -1,5 +1,5 @@
 {
-  "name": "ui-header",
+  "name": "shared-ui-header",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/ui/header/src",
   "prefix": "lib",

@@ -1,5 +1,5 @@
 {
-  "name": "ui-hero",
+  "name": "shared-ui-hero",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/ui/hero/src",
   "prefix": "lib",
