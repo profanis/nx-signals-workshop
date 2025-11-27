@@ -13,14 +13,9 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'catalogue',
-    loadComponent: () =>
-      import('@workspace/feature-catalogue').then((m) => m.CatalogueComponent),
-  },
-  {
-    path: 'catalogue/:id',
-    loadComponent: () =>
-      import('@workspace/feature-catalogue').then(
-        (m) => m.ProductDetailsComponent
+    loadChildren: () =>
+      import('@workspace/catalogue/feature-shell').then(
+        (m) => m.catalogueRoutes
       ),
   },
   {

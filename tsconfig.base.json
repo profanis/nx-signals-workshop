@@ -20,8 +20,16 @@
         "libs/shared/ui/product-card/src/index.ts"
       ],
       "@workspace/feature-home": ["libs/feature-home/src/index.ts"],
-      "@workspace/feature-catalogue": ["libs/feature-catalogue/src/index.ts"],
-      "@workspace/shared/ui/ui-header": ["libs/shared/ui/header/src/index.ts"]
+      "@workspace/shared/ui/ui-header": ["libs/shared/ui/header/src/index.ts"],
+      "@workspace/catalogue/feature-catalogue-list": [
+        "libs/catalogue/feature-catalogue-list/src/index.ts"
+      ],
+      "@workspace/catalogue/feature-catalogue-details": [
+        "libs/catalogue/feature-catalogue-details/src/index.ts"
+      ],
+      "@workspace/catalogue/feature-shell": [
+        "libs/catalogue/feature-shell/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,8 +1,9 @@
 export default {
-  displayName: 'feature-catalogue',
-  preset: '../../jest.preset.js',
+  displayName: 'catalogue-feature-catalogue-details',
+  preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/libs/feature-catalogue',
+  coverageDirectory:
+    '../../../coverage/libs/catalogue/feature-catalogue-details',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
