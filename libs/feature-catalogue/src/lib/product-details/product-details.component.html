@@ -1,0 +1,94 @@
+<div class="product-details-container">
+  <div class="product-layout">
+    <!-- Left Column: Product Image -->
+    <div class="product-image-section">
+      <mat-card class="image-card">
+        <img
+          mat-card-image
+          [ngSrc]="product().imageUrl"
+          [alt]="product().name"
+          width="800"
+          height="600"
+          priority
+        />
+      </mat-card>
+    </div>
+
+    <!-- Right Column: Product Info -->
+    <div class="product-info-section">
+      <mat-card class="info-card">
+        <mat-card-header>
+          <mat-card-title class="product-title">
+            {{ product().name }}
+          </mat-card-title>
+          <mat-card-subtitle class="product-price">
+            ${{ product().price.toFixed(2) }}
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <!-- Favorite Button -->
+          <div class="action-buttons">
+            <button
+              mat-icon-button
+              color="accent"
+              (click)="toggleFavorite()"
+              [attr.aria-label]="
+                product().isFavorite
+                  ? 'Remove from favorites'
+                  : 'Add to favorites'
+              "
+            >
+              <mat-icon>
+                {{ product().isFavorite ? 'favorite' : 'favorite_border' }}
+              </mat-icon>
+            </button>
+          </div>
+
+          <!-- Description -->
+          <mat-divider />
+          <div class="product-description">
+            <h3>Description</h3>
+            <p>{{ product().description }}</p>
+          </div>
+
+          <mat-divider />
+
+          <!-- Comments Section -->
+          <div class="comments-section">
+            <h3>Customer Reviews</h3>
+            <mat-list>
+              @for (comment of comments(); track comment.user) {
+                <mat-list-item class="comment-item">
+                  <div class="comment-content">
+                    <div class="comment-header">
+                      <span class="comment-user">{{ comment.user }}</span>
+                      <div class="comment-rating">
+                        @for (filled of getStarArray(comment.rating); track $index) {
+                          <mat-icon class="star-icon" [class.filled]="filled">
+                            {{ filled ? 'star' : 'star_border' }}
+                          </mat-icon>
+                        }
+                      </div>
+                    </div>
+                    <p class="comment-text">{{ comment.text }}</p>
+                  </div>
+                </mat-list-item>
+                @if (!$last) {
+                  <mat-divider />
+                }
+              }
+            </mat-list>
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-raised-button color="primary" class="add-to-cart-btn">
+            <mat-icon>shopping_cart</mat-icon>
+            Add to Cart
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

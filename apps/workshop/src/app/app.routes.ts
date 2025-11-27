@@ -17,6 +17,13 @@ export const appRoutes: Route[] = [
       import('@workspace/feature-catalogue').then((m) => m.CatalogueComponent),
   },
   {
+    path: 'catalogue/:id',
+    loadComponent: () =>
+      import('@workspace/feature-catalogue').then(
+        (m) => m.ProductDetailsComponent
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

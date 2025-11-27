@@ -8,6 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NgOptimizedImage } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 export interface Product {
   id: string;
@@ -19,7 +20,13 @@ export interface Product {
 
 @Component({
   selector: 'lib-ui-product-card',
-  imports: [MatCardModule, MatButtonModule, MatIconModule, NgOptimizedImage],
+  imports: [
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    NgOptimizedImage,
+    RouterLink,
+  ],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
