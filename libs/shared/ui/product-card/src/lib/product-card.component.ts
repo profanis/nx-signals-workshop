@@ -9,15 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
-
-export interface Product {
-  id: string;
-  name: string;
-  price: number;
-  imageUrl: string;
-  isFavorite: boolean;
-}
-
+import { Product } from '@workspace/catalogue/types';
 @Component({
   selector: 'lib-ui-product-card',
   imports: [

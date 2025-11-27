@@ -11,21 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { NgOptimizedImage } from '@angular/common';
-
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  imageUrl: string;
-  isFavorite: boolean;
-}
-
-interface Comment {
-  user: string;
-  text: string;
-  rating: number;
-}
+import { Product, Comment } from '@workspace/catalogue/types';
 
 @Component({
   selector: 'lib-product-details',

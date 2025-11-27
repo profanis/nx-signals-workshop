@@ -4,15 +4,13 @@ import {
   computed,
   signal,
 } from '@angular/core';
-import {
-  ProductCardComponent,
-  type Product,
-} from '@workspace/shared/ui/ui-product-card';
+import { ProductCardComponent } from '@workspace/shared/ui/ui-product-card';
 import { MatInputModule } from '@angular/material/input';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
+import { Product } from '@workspace/catalogue/types';
 
 @Component({
   selector: 'lib-feature-catalogue',

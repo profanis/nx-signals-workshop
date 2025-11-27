@@ -29,7 +29,8 @@
       ],
       "@workspace/catalogue/feature-shell": [
         "libs/catalogue/feature-shell/src/index.ts"
-      ]
+      ],
+      "@workspace/catalogue/types": ["libs/catalogue/types/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
