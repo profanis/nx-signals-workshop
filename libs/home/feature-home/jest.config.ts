@@ -1,8 +1,8 @@
 export default {
-  displayName: 'feature-home',
-  preset: '../../jest.preset.js',
+  displayName: 'home-feature-home',
+  preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/libs/feature-home',
+  coverageDirectory: '../../../coverage/libs/home/feature-home',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

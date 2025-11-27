@@ -1,5 +1,5 @@
 export default {
-  displayName: 'feature-shell',
+  displayName: 'catalogue-feature-shell',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory: '../../../coverage/libs/catalogue/feature-shell',

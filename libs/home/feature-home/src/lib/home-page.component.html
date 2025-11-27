@@ -1,0 +1,68 @@
+<div class="home-page">
+  <!-- Hero Section -->
+  <lib-ui-hero
+    [title]="'Welcome to Art Gallery'"
+    [subtitle]="
+      'Discover and collect extraordinary art pieces from talented artists around the world'
+    "
+    [ctaText]="'Browse Collection'"
+    (ctaClick)="onHeroCtaClick()"
+  />
+
+  <!-- Trending Collections Section -->
+  <section class="trending-section">
+    <h2 class="section-title">Trending Collections</h2>
+
+    <div class="categories-grid">
+      @for (category of categories; track category.title) {
+      <mat-card class="category-card" (click)="onCategoryClick(category)">
+        <img mat-card-image [src]="category.imageUrl" [alt]="category.title" />
+
+        <mat-card-header>
+          <mat-card-title>{{ category.title }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p>{{ category.description }}</p>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-button color="primary">Explore</button>
+        </mat-card-actions>
+      </mat-card>
+      }
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter-section">
+    <mat-card class="newsletter-card">
+      <mat-card-header>
+        <mat-card-title>Stay Updated</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p>
+          Subscribe to our newsletter to receive updates on new collections and
+          exclusive offers.
+        </p>
+
+        <div class="newsletter-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Email address</mat-label>
+            <input
+              matInput
+              type="email"
+              placeholder="your@email.com"
+              aria-label="Email address for newsletter subscription"
+            />
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" (click)="onSubscribe()">
+            Subscribe
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </section>
+</div>

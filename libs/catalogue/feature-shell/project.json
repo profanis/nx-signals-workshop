@@ -1,5 +1,5 @@
 {
-  "name": "feature-shell",
+  "name": "catalogue-feature-shell",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/catalogue/feature-shell/src",
   "prefix": "lib",

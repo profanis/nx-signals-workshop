@@ -9,12 +9,12 @@ export const appRoutes: Route[] = [
   {
     path: 'home',
     loadComponent: () =>
-      import('@workspace/feature-home').then((m) => m.HomePage),
+      import('@workshop/home-feature-home').then((m) => m.HomePage),
   },
   {
     path: 'catalogue',
     loadChildren: () =>
-      import('@workspace/catalogue/feature-shell').then(
+      import('@workshop/catalogue-feature-shell').then(
         (m) => m.catalogueRoutes
       ),
   },
