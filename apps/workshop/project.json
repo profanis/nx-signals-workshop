@@ -12,7 +12,6 @@
       "options": {
         "outputPath": "dist/apps/workshop",
         "browser": "apps/workshop/src/main.ts",
-        "polyfills": ["zone.js"],
         "tsConfig": "apps/workshop/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
