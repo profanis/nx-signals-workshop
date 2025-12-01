@@ -25,7 +25,7 @@
           <input
             matInput
             type="text"
-            [value]="searchTerm()"
+            [value]="state.searchTerm()"
             (input)="onSearchChange($any($event.target).value)"
             placeholder="Search by plant name..."
             aria-label="Search for plants by name"
@@ -36,21 +36,22 @@
       <!-- Results Summary -->
       <div class="results-summary">
         <p>
-          Showing {{ filteredProducts().length }} of {{ products().length }}
+          Showing {{ state.products()?.length }} of
+          {{ state.products()?.length }}
           plants
         </p>
       </div>
 
       <!-- Products Grid -->
       <div class="products-grid">
-        @for (product of filteredProducts(); track product.id) {
+        @for (product of state.products(); track product.id) {
         <lib-ui-product-card
           [product]="product"
           (toggleFavorite)="onToggleFavorite($event)"
         />
         } @empty {
         <div class="no-results">
-          <p>No plants found matching "{{ searchTerm() }}"</p>
+          <p>No plants found matching "{{ state.searchTerm() }}"</p>
           <button
             mat-raised-button
             color="primary"

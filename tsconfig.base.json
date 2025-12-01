@@ -31,7 +31,10 @@
       "@workshop/shared-ui-product-card": [
         "libs/shared/ui/ui-product-card/src/index.ts"
       ],
-      "@workshop/shared-ui-hero": ["libs/shared/ui/ui-hero/src/index.ts"]
+      "@workshop/shared-ui-hero": ["libs/shared/ui/ui-hero/src/index.ts"],
+      "@workshop/catalogue-data-access": [
+        "libs/catalogue/data-access/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
