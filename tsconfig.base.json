@@ -30,7 +30,8 @@
       "@workshop/shared/ui-hero": ["libs/shared/ui/hero/src/index.ts"],
       "@workshop/shared/ui-product-card": [
         "libs/shared/ui/product-card/src/index.ts"
-      ]
+      ],
+      "@workspace/home-feature-shell": ["libs/home/feature-shell/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

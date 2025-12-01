@@ -4,7 +4,7 @@
   "sourceRoot": "libs/catalogue/feature-catalogue-details/src",
   "prefix": "lib",
   "projectType": "library",
-  "tags": [],
+  "tags": ["scope:catalogue", "type:feature"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

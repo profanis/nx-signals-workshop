@@ -8,8 +8,8 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'home',
-    loadComponent: () =>
-      import('@workshop/home-feature-home').then((m) => m.HomePage),
+    loadChildren: () =>
+      import('@workspace/home-feature-shell').then((m) => m.homeRoutes),
   },
   {
     path: 'catalogue',
