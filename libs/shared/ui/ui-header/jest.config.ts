@@ -2,7 +2,7 @@ export default {
   displayName: 'shared-ui-header',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/shared/ui/header',
+  coverageDirectory: '../../../../coverage/libs/shared/ui/ui-header',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

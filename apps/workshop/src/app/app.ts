@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HeaderComponent } from '@workshop/shared/ui-header';
+import { HeaderComponent } from '@workshop/shared-ui-header';
 
 @Component({
   imports: [RouterModule, HeaderComponent],

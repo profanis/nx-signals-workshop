@@ -9,7 +9,7 @@ export const appRoutes: Route[] = [
   {
     path: 'home',
     loadChildren: () =>
-      import('@workspace/home-feature-shell').then((m) => m.homeRoutes),
+      import('@workshop/home-feature-shell').then((m) => m.homeRoutes),
   },
   {
     path: 'catalogue',

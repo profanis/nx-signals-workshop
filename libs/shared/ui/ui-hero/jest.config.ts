@@ -1,8 +1,8 @@
 export default {
-  displayName: 'shared-ui-product-card',
+  displayName: 'shared-ui-hero',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../../../coverage/libs/shared/ui/product-card',
+  coverageDirectory: '../../../../coverage/libs/shared/ui/ui-hero',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

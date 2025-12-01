@@ -26,12 +26,12 @@
       "@workshop/catalogue-feature-catalogue-list": [
         "libs/catalogue/feature-catalogue-list/src/index.ts"
       ],
-      "@workshop/shared/ui-header": ["libs/shared/ui/header/src/index.ts"],
-      "@workshop/shared/ui-hero": ["libs/shared/ui/hero/src/index.ts"],
-      "@workshop/shared/ui-product-card": [
-        "libs/shared/ui/product-card/src/index.ts"
+      "@workshop/home-feature-shell": ["libs/home/feature-shell/src/index.ts"],
+      "@workshop/shared-ui-header": ["libs/shared/ui/ui-header/src/index.ts"],
+      "@workshop/shared-ui-product-card": [
+        "libs/shared/ui/ui-product-card/src/index.ts"
       ],
-      "@workspace/home-feature-shell": ["libs/home/feature-shell/src/index.ts"]
+      "@workshop/shared-ui-hero": ["libs/shared/ui/ui-hero/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -4,7 +4,7 @@ import {
   computed,
   signal,
 } from '@angular/core';
-import { ProductCardComponent } from '@workshop/shared/ui-product-card';
+import { ProductCardComponent } from '@workshop/shared-ui-product-card';
 import { MatInputModule } from '@angular/material/input';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
