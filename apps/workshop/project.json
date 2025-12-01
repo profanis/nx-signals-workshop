@@ -4,7 +4,7 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/workshop/src",
-  "tags": [],
+  "tags": ["scope:workshop", "type:application"],
   "targets": {
     "build": {
       "executor": "@angular/build:application",

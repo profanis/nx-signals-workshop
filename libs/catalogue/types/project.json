@@ -3,7 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/catalogue/types/src",
   "projectType": "library",
-  "tags": ["type:model", "scope:catalogue"],
+  "tags": ["type:model", "scope:catalogue", "scope:shared"],
   "// targets": "to see all targets run: nx show project catalogue-types --web",
   "targets": {}
 }
