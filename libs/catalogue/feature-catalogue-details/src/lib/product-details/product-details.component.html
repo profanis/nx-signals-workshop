@@ -1,3 +1,5 @@
+@let product = state.product.hasValue() ? state.product.value() : null;
+@if(product) {
 <div class="product-details-container">
   <div class="product-layout">
     <!-- Left Column: Product Image -->
@@ -5,8 +7,8 @@
       <mat-card class="image-card">
         <img
           mat-card-image
-          [ngSrc]="product().imageUrl"
-          [alt]="product().name"
+          [ngSrc]="product.imageUrl"
+          [alt]="product.name"
           width="800"
           height="600"
           priority
@@ -19,11 +21,9 @@
       <mat-card class="info-card">
         <mat-card-header>
           <mat-card-title class="product-title">
-            {{ product().name }}
+            {{ product.name }}
           </mat-card-title>
-          <mat-card-subtitle class="product-price">
-            ${{ product().price.toFixed(2) }}
-          </mat-card-subtitle>
+          <mat-card-subtitle class="product-price"> $123 </mat-card-subtitle>
         </mat-card-header>
 
         <mat-card-content>
@@ -34,13 +34,13 @@
               color="accent"
               (click)="toggleFavorite()"
               [attr.aria-label]="
-                product().isFavorite
+                product.isFavorite
                   ? 'Remove from favorites'
                   : 'Add to favorites'
               "
             >
               <mat-icon>
-                {{ product().isFavorite ? 'favorite' : 'favorite_border' }}
+                {{ product.isFavorite ? 'favorite' : 'favorite_border' }}
               </mat-icon>
             </button>
           </div>
@@ -49,7 +49,7 @@
           <mat-divider />
           <div class="product-description">
             <h3>Description</h3>
-            <p>{{ product().description }}</p>
+            <p>{{ product.description }}</p>
           </div>
 
           <mat-divider />
@@ -92,3 +92,4 @@
     </div>
   </div>
 </div>
+}

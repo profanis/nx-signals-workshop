@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HeroComponent } from '@workshop/shared-ui-hero';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Router, RouterLink } from '@angular/router';
 
 interface CategoryCard {
   title: string;
@@ -20,15 +19,12 @@ interface CategoryCard {
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    RouterLink,
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePage {
-  private router = inject(Router);
-
   categories: CategoryCard[] = [
     {
       title: 'Modern Art',

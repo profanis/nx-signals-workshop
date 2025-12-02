@@ -17,6 +17,7 @@ export class ProductsApi {
     return this.http
       .get<ProductsResponse[]>(`${this.apiHost}/products`, {
         headers: {
+          // TODO: the headers should be moved to an interceptor
           apikey: this.apiKey,
           Range: `${page * itemsPerPage}-${
             page * itemsPerPage + itemsPerPage - 1
@@ -40,6 +41,24 @@ export class ProductsApi {
             data: response.body || [],
             total: totalCount,
           };
+        })
+      );
+  }
+
+  getProductById(id: number): Observable<ProductsResponse> {
+    return this.http
+      .get<ProductsResponse>(`${this.apiHost}/products?id=eq.${id}`, {
+        // TODO: the headers should be moved to an interceptor
+        headers: {
+          apikey: this.apiKey,
+        },
+      })
+      .pipe(
+        map((products) => {
+          if (products && Array.isArray(products) && products.length > 0) {
+            return products[0];
+          }
+          throw new Error('Product not found');
         })
       );
   }
