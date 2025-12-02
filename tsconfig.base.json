@@ -34,7 +34,8 @@
       "@workshop/shared-ui-hero": ["libs/shared/ui/ui-hero/src/index.ts"],
       "@workshop/catalogue-data-access": [
         "libs/catalogue/data-access/src/index.ts"
-      ]
+      ],
+      "@workshop/shared-types": ["libs/shared/types/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

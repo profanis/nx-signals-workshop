@@ -1,5 +1,7 @@
+@let hasMorePages = state.products() && (state.totalProducts() || 0) >
+state.products()!.length;
+
 <mat-sidenav-container class="catalogue-container">
-  <!-- Sidebar (optional for future filters) -->
   <mat-sidenav mode="side" opened class="catalogue-sidenav">
     <div class="sidenav-content">
       <h3>Filters</h3>
@@ -36,15 +38,15 @@
       <!-- Results Summary -->
       <div class="results-summary">
         <p>
-          Showing {{ state.products()?.length }} of
-          {{ state.products()?.length }}
+          Showing {{ state.products().length }} of
+          {{ state.totalProducts() || 0 }}
           plants
         </p>
       </div>
 
       <!-- Products Grid -->
       <div class="products-grid">
-        @for (product of state.products(); track product.id) {
+        @for (product of state.products()!; track product.id) {
         <lib-ui-product-card
           [product]="product"
           (toggleFavorite)="onToggleFavorite($event)"
@@ -62,6 +64,12 @@
         </div>
         }
       </div>
+
+      @if(hasMorePages) {
+      <button mat-raised-button color="primary" (click)="onLoadMore()">
+        Load More
+      </button>
+      }
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

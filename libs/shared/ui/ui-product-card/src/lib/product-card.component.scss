@@ -3,7 +3,7 @@
 }
 
 mat-card {
-  max-width: 300px;
+  width: fit-content;
   transition: box-shadow 0.3s ease;
 
   &:hover {

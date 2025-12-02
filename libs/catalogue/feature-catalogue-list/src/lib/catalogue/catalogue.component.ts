@@ -113,4 +113,8 @@ export class CatalogueComponent {
   onSearchChange(value: string): void {
     this.state.searchTerm.set(value);
   }
+
+  onLoadMore(): void {
+    this.state.page.update((page) => page + 1);
+  }
 }

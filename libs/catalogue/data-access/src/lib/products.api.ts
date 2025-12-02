@@ -1,75 +1,46 @@
-import { Injectable } from '@angular/core';
-import { Product } from '@workshop/catalogue-types';
-import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { ProductsResponse } from '@workshop/catalogue-types';
+import { map, Observable } from 'rxjs';
+import { PageableResponse } from '@workshop/shared-types';
 
 @Injectable()
 export class ProductsApi {
-  getProducts(searchTerm?: string): Observable<Product[]> {
-    const mockProducts: Product[] = [
-      {
-        id: '1',
-        name: 'Monstera Deliciosa',
-        price: 45.99,
-        imageUrl: 'https://picsum.photos/seed/monstera/300/200',
-        isFavorite: false,
-      },
-      {
-        id: '2',
-        name: 'Fiddle Leaf Fig',
-        price: 65.0,
-        imageUrl: 'https://picsum.photos/seed/fiddle/300/200',
-        isFavorite: true,
-      },
-      {
-        id: '3',
-        name: 'Snake Plant',
-        price: 29.99,
-        imageUrl: 'https://picsum.photos/seed/snake/300/200',
-        isFavorite: false,
-      },
-      {
-        id: '4',
-        name: 'Pothos Golden',
-        price: 19.99,
-        imageUrl: 'https://picsum.photos/seed/pothos/300/200',
-        isFavorite: true,
-      },
-      {
-        id: '5',
-        name: 'Peace Lily',
-        price: 34.5,
-        imageUrl: 'https://picsum.photos/seed/peace/300/200',
-        isFavorite: false,
-      },
-      {
-        id: '6',
-        name: 'Rubber Plant',
-        price: 42.0,
-        imageUrl: 'https://picsum.photos/seed/rubber/300/200',
-        isFavorite: false,
-      },
-      {
-        id: '7',
-        name: 'Aloe Vera',
-        price: 15.99,
-        imageUrl: 'https://picsum.photos/seed/aloe/300/200',
-        isFavorite: true,
-      },
-      {
-        id: '8',
-        name: 'Boston Fern',
-        price: 27.5,
-        imageUrl: 'https://picsum.photos/seed/fern/300/200',
-        isFavorite: false,
-      },
-    ];
+  private readonly http = inject(HttpClient);
+  private readonly apiKey = 'sb_publishable_WRlSo4jZkMz1zR6aniTEkg_F3dsjnEj';
+  private readonly apiHost = 'https://rkvvclbngyupeexgnqou.supabase.co/rest/v1';
 
-    if (searchTerm) {
-      const filtered = mockProducts.filter((product) =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  getProducts(
+    page = 0,
+    itemsPerPage = 9
+  ): Observable<PageableResponse<ProductsResponse>> {
+    return this.http
+      .get<ProductsResponse[]>(`${this.apiHost}/products`, {
+        headers: {
+          apikey: this.apiKey,
+          Range: `${page * itemsPerPage}-${
+            page * itemsPerPage + itemsPerPage - 1
+          }`,
+          Prefer: 'count=exact',
+        },
+        observe: 'response',
+      })
+      .pipe(
+        map((response) => {
+          const contentRangeHeader = response.headers.get('Content-Range');
+          let totalCount = 0;
+          if (contentRangeHeader) {
+            // The header format is typically "0-9/1234"
+            // We split by '/' and take the last part.
+            const total = contentRangeHeader.split('/').pop();
+            totalCount = total ? parseInt(total, 10) : 0;
+          }
+
+          return {
+            data: response.body || [],
+            total: totalCount,
+          };
+        })
       );
-      return of(filtered);
-    }
-    return of(mockProducts);
   }
 }
