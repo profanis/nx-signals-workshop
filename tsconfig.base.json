@@ -15,9 +15,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@workshop/catalogue-feature-shell": [
-        "libs/catalogue/feature-shell/src/index.ts"
-      ],
       "@workshop/home-feature-home": ["libs/home/feature-home/src/index.ts"],
       "@workshop/catalogue-types": ["libs/catalogue/types/src/index.ts"],
       "@workshop/catalogue/feature-catalogue-details": [
@@ -26,11 +23,7 @@
       "@workshop/catalogue-feature-catalogue-list": [
         "libs/catalogue/feature-catalogue-list/src/index.ts"
       ],
-      "@workshop/home-feature-shell": ["libs/home/feature-shell/src/index.ts"],
       "@workshop/shared-ui-header": ["libs/shared/ui/ui-header/src/index.ts"],
-      "@workshop/shared-ui-product-card": [
-        "libs/shared/ui/ui-product-card/src/index.ts"
-      ],
       "@workshop/shared-ui-hero": ["libs/shared/ui/ui-hero/src/index.ts"],
       "@workshop/catalogue-data-access": [
         "libs/catalogue/data-access/src/index.ts"

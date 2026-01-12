@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ProductCardComponent } from '@workshop/shared-ui-product-card';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
-import { ProductsApi } from '@workshop/catalogue-data-access';
-import { CatalogueLocalState } from './catalogue.state';
+
+import { ProductsResponse } from '@workshop/catalogue-types';
+import { ProductCardComponent } from '../components';
 @Component({
   selector: 'lib-feature-catalogue',
   imports: [
@@ -20,69 +20,103 @@ import { CatalogueLocalState } from './catalogue.state';
   templateUrl: './catalogue.component.html',
   styleUrl: './catalogue.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ProductsApi, CatalogueLocalState],
 })
 export class CatalogueComponent {
-  readonly state = inject(CatalogueLocalState);
   // Signal for the product list
-  // products = signal<Product[]>([
-  //   {
-  //     id: '1',
-  //     name: 'Monstera Deliciosa',
-  //     price: 45.99,
-  //     imageUrl: 'https://picsum.photos/seed/monstera/300/200',
-  //     isFavorite: false,
-  //   },
-  //   {
-  //     id: '2',
-  //     name: 'Fiddle Leaf Fig',
-  //     price: 65.0,
-  //     imageUrl: 'https://picsum.photos/seed/fiddle/300/200',
-  //     isFavorite: true,
-  //   },
-  //   {
-  //     id: '3',
-  //     name: 'Snake Plant',
-  //     price: 29.99,
-  //     imageUrl: 'https://picsum.photos/seed/snake/300/200',
-  //     isFavorite: false,
-  //   },
-  //   {
-  //     id: '4',
-  //     name: 'Pothos Golden',
-  //     price: 19.99,
-  //     imageUrl: 'https://picsum.photos/seed/pothos/300/200',
-  //     isFavorite: true,
-  //   },
-  //   {
-  //     id: '5',
-  //     name: 'Peace Lily',
-  //     price: 34.5,
-  //     imageUrl: 'https://picsum.photos/seed/peace/300/200',
-  //     isFavorite: false,
-  //   },
-  //   {
-  //     id: '6',
-  //     name: 'Rubber Plant',
-  //     price: 42.0,
-  //     imageUrl: 'https://picsum.photos/seed/rubber/300/200',
-  //     isFavorite: false,
-  //   },
-  //   {
-  //     id: '7',
-  //     name: 'Aloe Vera',
-  //     price: 15.99,
-  //     imageUrl: 'https://picsum.photos/seed/aloe/300/200',
-  //     isFavorite: true,
-  //   },
-  //   {
-  //     id: '8',
-  //     name: 'Boston Fern',
-  //     price: 27.5,
-  //     imageUrl: 'https://picsum.photos/seed/fern/300/200',
-  //     isFavorite: false,
-  //   },
-  // ]);
+  products = signal<ProductsResponse[]>([
+    {
+      id: '1',
+      name: 'Snake Plant',
+      scientificName: 'Dracaena trifasciata',
+      description:
+        'A hardy houseplant with stiff, sword-like leaves. It tolerates low light and irregular watering.',
+      imageUrl:
+        'https://commons.wikimedia.org/wiki/Special:FilePath/Snake_Plant_(Sansevieria_trifasciata_%27Laurentii%27)_1.jpg',
+      sourcePage:
+        'https://commons.wikimedia.org/wiki/File:Snake_Plant_(Sansevieria_trifasciata_%27Laurentii%27)_1.jpg',
+      isFavorite: false,
+    },
+    {
+      id: '2',
+      name: 'Peace Lily',
+      scientificName: 'Spathiphyllum wallisii',
+      description:
+        'Known for its white spoon-shaped flowers and glossy green leaves. It droops when thirsty.',
+      imageUrl:
+        'https://commons.wikimedia.org/wiki/Special:FilePath/Peace_lily_-_1.jpg',
+      sourcePage: 'https://commons.wikimedia.org/wiki/File:Peace_lily_-_1.jpg',
+      isFavorite: true,
+    },
+    {
+      id: '3',
+      name: 'Lavender',
+      scientificName: 'Lavandula angustifolia',
+      description:
+        'An aromatic herb with purple flowers, often used for its calming scent and essential oils.',
+      imageUrl:
+        'https://commons.wikimedia.org/wiki/Special:FilePath/Lavandula_angustifolia_002.JPG',
+      sourcePage:
+        'https://commons.wikimedia.org/wiki/File:Lavandula_angustifolia_002.JPG',
+      isFavorite: false,
+    },
+    {
+      id: '4',
+      name: 'Sunflower',
+      scientificName: 'Helianthus annuus',
+      description:
+        "A tall annual plant with massive yellow flower heads that track the sun's movement.",
+      imageUrl:
+        'https://commons.wikimedia.org/wiki/Special:FilePath/Helianthus_annuus_sunflower.jpg',
+      sourcePage:
+        'https://commons.wikimedia.org/wiki/File:Helianthus_annuus_sunflower.jpg',
+      isFavorite: true,
+    },
+    {
+      id: '5',
+      name: 'Aloe Vera',
+      scientificName: 'Aloe barbadensis miller',
+      description:
+        'A succulent species with thick fleshy leaves containing a soothing gel used for skin burns.',
+      imageUrl:
+        'https://commons.wikimedia.org/wiki/Special:FilePath/Aloe_vera.jpg',
+      sourcePage: 'https://commons.wikimedia.org/wiki/File:Aloe_vera.jpg',
+      isFavorite: false,
+    },
+    {
+      id: '6',
+      name: 'Pothos',
+      scientificName: 'Epipremnum aureum',
+      description:
+        'A popular trailing houseplant with heart-shaped leaves, often variegated with yellow or white.',
+      imageUrl:
+        'https://commons.wikimedia.org/wiki/Special:FilePath/Epipremnum_aureum1.jpg',
+      sourcePage:
+        'https://commons.wikimedia.org/wiki/File:Epipremnum_aureum1.jpg',
+      isFavorite: false,
+    },
+    {
+      id: '7',
+      name: 'Rubber Plant',
+      scientificName: 'Ficus elastica',
+      description:
+        'An impressive indoor tree with large, glossy, dark green or burgundy leaves.',
+      imageUrl:
+        'https://commons.wikimedia.org/wiki/Special:FilePath/Ficus_elastica.jpg',
+      sourcePage: 'https://commons.wikimedia.org/wiki/File:Ficus_elastica.jpg',
+      isFavorite: true,
+    },
+    {
+      id: '8',
+      name: 'Fiddle-Leaf Fig',
+      scientificName: 'Ficus lyrata',
+      description:
+        'A trendy indoor tree with large, violin-shaped leaves that require bright, filtered light.',
+      imageUrl:
+        'https://commons.wikimedia.org/wiki/Special:FilePath/Ficus_lyrata1.jpg',
+      sourcePage: 'https://commons.wikimedia.org/wiki/File:Ficus_lyrata1.jpg',
+      isFavorite: false,
+    },
+  ]);
 
   // Signal for the search term
   // searchTerm = signal('');
@@ -110,11 +144,9 @@ export class CatalogueComponent {
   }
 
   // Update search term
-  onSearchChange(value: string): void {
-    this.state.searchTerm.set(value);
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+  onSearchChange(value: string): void {}
 
-  onLoadMore(): void {
-    this.state.page.update((page) => page + 1);
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onLoadMore(): void {}
 }

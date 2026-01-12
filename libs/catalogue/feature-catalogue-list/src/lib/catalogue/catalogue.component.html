@@ -1,6 +1,3 @@
-@let hasMorePages = state.products() && (state.totalProducts() || 0) >
-state.products()!.length;
-
 <mat-sidenav-container class="catalogue-container">
   <mat-sidenav mode="side" opened class="catalogue-sidenav">
     <div class="sidenav-content">
@@ -27,8 +24,6 @@ state.products()!.length;
           <input
             matInput
             type="text"
-            [value]="state.searchTerm()"
-            (input)="onSearchChange($any($event.target).value)"
             placeholder="Search by plant name..."
             aria-label="Search for plants by name"
           />
@@ -37,23 +32,18 @@ state.products()!.length;
 
       <!-- Results Summary -->
       <div class="results-summary">
-        <p>
-          Showing {{ state.products().length }} of
-          {{ state.totalProducts() || 0 }}
-          plants
-        </p>
+        <p>Showing 10 of 70 plants</p>
       </div>
 
       <!-- Products Grid -->
       <div class="products-grid">
-        @for (product of state.products()!; track product.id) {
+        @for (product of products(); track product.id) {
         <lib-ui-product-card
           [product]="product"
           (toggleFavorite)="onToggleFavorite($event)"
         />
         } @empty {
         <div class="no-results">
-          <p>No plants found matching "{{ state.searchTerm() }}"</p>
           <button
             mat-raised-button
             color="primary"
@@ -64,12 +54,6 @@ state.products()!.length;
         </div>
         }
       </div>
-
-      @if(hasMorePages) {
-      <button mat-raised-button color="primary" (click)="onLoadMore()">
-        Load More
-      </button>
-      }
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

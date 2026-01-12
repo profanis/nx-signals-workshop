@@ -7,15 +7,16 @@ export const appRoutes: Route[] = [
     redirectTo: 'home',
   },
   {
-    path: 'home',
-    loadChildren: () =>
-      import('@workshop/home-feature-shell').then((m) => m.homeRoutes),
+    path: '',
+    loadComponent: () =>
+      import('@workshop/home-feature-home').then((m) => m.HomePage),
+    pathMatch: 'full',
   },
   {
     path: 'catalogue',
-    loadChildren: () =>
-      import('@workshop/catalogue-feature-shell').then(
-        (m) => m.catalogueRoutes
+    loadComponent: () =>
+      import('@workshop/catalogue-feature-catalogue-list').then(
+        (m) => m.CatalogueComponent
       ),
   },
   {

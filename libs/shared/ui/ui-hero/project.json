@@ -4,7 +4,7 @@
   "sourceRoot": "libs/shared/ui/ui-hero/src",
   "prefix": "lib",
   "projectType": "library",
-  "tags": ["scope:shared", "type:ui"],
+  "tags": ["scope:shared"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",

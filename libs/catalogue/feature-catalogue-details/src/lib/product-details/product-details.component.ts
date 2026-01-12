@@ -1,8 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  effect,
-  inject,
   input,
   signal,
 } from '@angular/core';
@@ -12,9 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { NgOptimizedImage } from '@angular/common';
-import { Comment } from '@workshop/catalogue-types';
-import { ProductDetailState } from './product-detail.state';
-import { ProductsApi } from '@workshop/catalogue-data-access';
+import { Comment, ProductsResponse } from '@workshop/catalogue-types';
 
 @Component({
   selector: 'lib-product-details',
@@ -29,21 +25,27 @@ import { ProductsApi } from '@workshop/catalogue-data-access';
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ProductDetailState, ProductsApi],
+  providers: [],
 })
 export class ProductDetailsComponent {
-  state = inject(ProductDetailState);
   // Signal input from route parameter
   id = input.required<string>();
 
-  constructor() {
-    effect(() => {
-      this.state.productId.set(Number(this.id()));
-    });
-  }
-
   // Internal state for favorite toggle
   private isFavorite = signal(false);
+
+  product: ProductsResponse = {
+    id: '1',
+    name: 'Snake Plant',
+    scientificName: 'Dracaena trifasciata',
+    description:
+      'A hardy houseplant with stiff, sword-like leaves. It tolerates low light and irregular watering.',
+    imageUrl:
+      'https://commons.wikimedia.org/wiki/Special:FilePath/Snake_Plant_(Sansevieria_trifasciata_%27Laurentii%27)_1.jpg',
+    sourcePage:
+      'https://commons.wikimedia.org/wiki/File:Snake_Plant_(Sansevieria_trifasciata_%27Laurentii%27)_1.jpg',
+    isFavorite: false,
+  };
 
   // Static comments signal
   comments = signal<Comment[]>([
