@@ -39,7 +39,8 @@ export class ProductCardComponent {
   product = input.required<ProductsResponse>();
   toggleFavorite = output<string>();
 
-  onToggleFavorite(): void {
+  onToggleFavorite(event: Event): void {
+    event.stopPropagation();
     this.toggleFavorite.emit(this.product().id);
   }
 }

@@ -1,7 +1,7 @@
 <mat-toolbar color="primary" class="header-toolbar">
   <!-- Brand Name -->
   <a routerLink="/" class="brand-name">
-    <h1>GreenHaven</h1>
+    <h1>GreenHeaven</h1>
   </a>
 
   <!-- Spacer -->
@@ -33,6 +33,9 @@
       routerLinkActive="active"
       class="nav-link nav-link-icon"
       mat-icon-button
+      [matBadge]="favoriteCount()"
+      [matBadgeHidden]="favoriteCount() === 0"
+      matBadgeColor="accent"
       aria-label="View wishlist"
     >
       <mat-icon>favorite</mat-icon>

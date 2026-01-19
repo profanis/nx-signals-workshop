@@ -22,7 +22,11 @@ state.products()!.length;
 
       <!-- Search Section -->
       <section class="search-section">
-        <mat-form-field appearance="outline" class="search-field">
+        <lib-plant-filter
+          [searchTerm]="state.searchTerm()"
+          (search)="onSearchChange($event)"
+        />
+        <!-- <mat-form-field appearance="outline" class="search-field">
           <mat-label>Search plants</mat-label>
           <input
             matInput
@@ -32,7 +36,7 @@ state.products()!.length;
             placeholder="Search by plant name..."
             aria-label="Search for plants by name"
           />
-        </mat-form-field>
+        </mat-form-field> -->
       </section>
 
       <!-- Results Summary -->
@@ -46,7 +50,7 @@ state.products()!.length;
 
       <!-- Products Grid -->
       <div class="products-grid">
-        @for (product of state.products()!; track product.id) {
+        @for (product of productsWithFavourites()!; track product.id) {
         <lib-ui-product-card
           [product]="product"
           (toggleFavorite)="onToggleFavorite($event)"

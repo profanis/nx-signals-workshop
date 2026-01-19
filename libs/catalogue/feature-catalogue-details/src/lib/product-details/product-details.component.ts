@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   effect,
   inject,
   input,
@@ -64,13 +65,20 @@ export class ProductDetailsComponent {
     },
   ]);
 
+  commentsView = computed(() =>
+    this.comments().map((comment) => ({
+      ...comment,
+      stars: Array.from({ length: 5 }, (_, i) => i < comment.rating),
+    }))
+  );
+
   // Toggle favorite state
   toggleFavorite(): void {
     this.isFavorite.update((current) => !current);
   }
 
   // TODO: Don't have functions in components, use computed signals instead
-  getStarArray(rating: number): boolean[] {
-    return Array.from({ length: 5 }, (_, i) => i < rating);
-  }
+  // getStarArray(rating: number): boolean[] {
+  //   return Array.from({ length: 5 }, (_, i) => i < rating);
+  // }
 }

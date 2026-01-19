@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  signal,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,4 +25,5 @@ import { MatBadgeModule } from '@angular/material/badge';
 })
 export class HeaderComponent {
   cartItemCount = 0;
+  favoriteCount = input<number>(0);
 }
