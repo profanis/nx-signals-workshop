@@ -5,7 +5,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
-import { ProductsApi } from '@workshop/catalogue-data-access';
+import { FavoritesState, ProductsApi } from '@workshop/catalogue-data-access';
 import { CatalogueLocalState } from './catalogue.state';
 @Component({
   selector: 'lib-feature-catalogue',
@@ -24,6 +24,9 @@ import { CatalogueLocalState } from './catalogue.state';
 })
 export class CatalogueComponent {
   readonly state = inject(CatalogueLocalState);
+  private readonly favoritesState = inject(FavoritesState);
+
+  // TODO: Create a productsWithFavorites computed that returns the products with the correct isFavorite boolean flag
 
   // Handle favorite toggle
   onToggleFavorite(productId: string): void {

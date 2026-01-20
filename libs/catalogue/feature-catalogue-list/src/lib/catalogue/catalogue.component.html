@@ -28,7 +28,7 @@ state.products()!.length;
             matInput
             type="text"
             [value]="state.searchTerm()"
-            (input)="onSearchChange($any($event.target).value)"
+            (input)="onSearchChange($event.target.value)"
             placeholder="Search by plant name..."
             aria-label="Search for plants by name"
           />
@@ -46,7 +46,7 @@ state.products()!.length;
 
       <!-- Products Grid -->
       <div class="products-grid">
-        @for (product of state.products()!; track product.id) {
+        @for (product of state.products(); track product.id) {
         <lib-ui-product-card
           [product]="product"
           (toggleFavorite)="onToggleFavorite($event)"
