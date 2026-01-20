@@ -33,7 +33,6 @@ export class CatalogueComponent {
   readonly state = inject(CatalogueLocalState);
   private readonly favoritesState = inject(FavoritesState);
 
-  // TODO: Create a productsWithFavourites computed that returns the products with the correct isFavorite boolean flag
   productsWithFavourites = computed(() => {
     return this.state.products().map((product) => {
       return {

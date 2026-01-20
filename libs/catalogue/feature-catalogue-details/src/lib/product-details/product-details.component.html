@@ -77,26 +77,6 @@
               @if (!$last) {
               <mat-divider />
               } }
-              <!-- @for (comment of comments(); track comment.user) {
-              <mat-list-item class="comment-item">
-                <div class="comment-content">
-                  <div class="comment-header">
-                    <span class="comment-user">{{ comment.user }}</span>
-                    <div class="comment-rating">
-                      @for (filled of getStarArray(comment.rating); track
-                      $index) {
-                      <mat-icon class="star-icon" [class.filled]="filled">
-                        {{ filled ? 'star' : 'star_border' }}
-                      </mat-icon>
-                      }
-                    </div>
-                  </div>
-                  <p class="comment-text">{{ comment.text }}</p>
-                </div>
-              </mat-list-item>
-              @if (!$last) {
-              <mat-divider />
-              } } -->
             </mat-list>
           </div>
         </mat-card-content>

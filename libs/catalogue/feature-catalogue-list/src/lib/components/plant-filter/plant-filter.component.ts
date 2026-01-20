@@ -39,8 +39,6 @@ import { FormsModule } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlantFilterComponent {
-  // TODO: Add signal input
   searchTerm = input<string>();
-  // TODO: Add output for search term changes
   search = output<string>();
 }
