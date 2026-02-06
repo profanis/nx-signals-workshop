@@ -1,18 +1,50 @@
 import {
   computed,
+  effect,
   inject,
   Injectable,
   linkedSignal,
   signal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs/operators';
 import { ProductsApi } from '@workshop/catalogue-data-access';
-import { ProductsResponse } from '@workshop/catalogue-types';
+import { FilterState, ProductsResponse } from '@workshop/catalogue-types';
 import { PageableResponse } from '@workshop/shared-types';
+import { deserializeQueryParamsToObject } from '@workshop/shared-util-router';
 
 @Injectable()
 export class CatalogueLocalState {
   private readonly productsApi = inject(ProductsApi);
+  private readonly route = inject(ActivatedRoute);
+
+  // Default filter state
+  private readonly defaultFilterState: FilterState = {
+    lightRequirements: [],
+    plantProperty: null,
+    plantType: null,
+  };
+
+  // Deserialize query params to FilterState
+  filterState = toSignal(
+    this.route.queryParams.pipe(
+      map((params) =>
+        deserializeQueryParamsToObject<FilterState>(
+          params,
+          this.defaultFilterState,
+        ),
+      ),
+    ),
+    { initialValue: this.defaultFilterState },
+  );
+
+  constructor() {
+    effect(() => {
+      console.log(this.filterState());
+    });
+  }
 
   totalProducts = computed(() => this.productsResource.value()?.total || 0);
   searchTerm = signal('');
@@ -24,7 +56,7 @@ export class CatalogueLocalState {
       return this.combinedProducts();
     }
     return this.combinedProducts().filter((product) =>
-      product.name.toLowerCase().includes(term)
+      product.name.toLowerCase().includes(term),
     );
   });
 

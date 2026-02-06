@@ -1,0 +1,72 @@
+.filters-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.filter-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.filter-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+// Light Requirements - Checkbox list styling
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+}
+
+.filter-checkbox {
+  flex: 1;
+  font-size: 1rem;
+}
+
+.count {
+  min-width: 2.5rem;
+  padding: 0.25rem 0.5rem;
+  background-color: #2d6a4f;
+  color: white;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+// Plant Properties - Select dropdown styling
+.full-width {
+  width: 100%;
+}
+
+// Plant Type - Radio button group styling
+.plant-type-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.plant-type-radio {
+  margin: 0;
+}
+
+// Clear filters button styling
+button {
+  align-self: flex-start;
+}

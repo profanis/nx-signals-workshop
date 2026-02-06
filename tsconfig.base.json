@@ -35,7 +35,13 @@
       "@workshop/catalogue-data-access": [
         "libs/catalogue/data-access/src/index.ts"
       ],
-      "@workshop/shared-types": ["libs/shared/types/src/index.ts"]
+      "@workshop/shared-types": ["libs/shared/types/src/index.ts"],
+      "@workshop/catalogue-feature-catalogue-filters": [
+        "libs/catalogue/feature-catalogue-filters/src/index.ts"
+      ],
+      "@workshop/shared-util-router": [
+        "libs/shared/utils/util-router/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

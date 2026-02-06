@@ -1,11 +1,11 @@
-@let hasMorePages = state.products() && (state.totalProducts() || 0) >
-state.products()!.length;
+@let hasMorePages =
+  state.products() && (state.totalProducts() || 0) > state.products()!.length;
 
 <mat-sidenav-container class="catalogue-container">
   <mat-sidenav mode="side" opened class="catalogue-sidenav">
     <div class="sidenav-content">
       <h3>Filters</h3>
-      <p class="filter-placeholder">Additional filters coming soon...</p>
+      <lib-product-filters (filtersChanged)="searchProducts($event)" />
     </div>
   </mat-sidenav>
 
@@ -39,6 +39,9 @@ state.products()!.length;
         </mat-form-field> -->
       </section>
 
+      <!-- Pills for Active Filters -->
+      <lib-search-pills />
+
       <!-- Results Summary -->
       <div class="results-summary">
         <p>
@@ -51,28 +54,28 @@ state.products()!.length;
       <!-- Products Grid -->
       <div class="products-grid">
         @for (product of productsWithFavourites()!; track product.id) {
-        <lib-ui-product-card
-          [product]="product"
-          (toggleFavorite)="onToggleFavorite($event)"
-        />
+          <lib-ui-product-card
+            [product]="product"
+            (toggleFavorite)="onToggleFavorite($event)"
+          />
         } @empty {
-        <div class="no-results">
-          <p>No plants found matching "{{ state.searchTerm() }}"</p>
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="onSearchChange('')"
-          >
-            Clear Search
-          </button>
-        </div>
+          <div class="no-results">
+            <p>No plants found matching "{{ state.searchTerm() }}"</p>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="onSearchChange('')"
+            >
+              Clear Search
+            </button>
+          </div>
         }
       </div>
 
-      @if(hasMorePages) {
-      <button mat-raised-button color="primary" (click)="onLoadMore()">
-        Load More
-      </button>
+      @if (hasMorePages) {
+        <button mat-raised-button color="primary" (click)="onLoadMore()">
+          Load More
+        </button>
       }
     </div>
   </mat-sidenav-content>
