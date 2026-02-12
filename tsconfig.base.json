@@ -41,7 +41,8 @@
       ],
       "@workshop/shared-util-router": [
         "libs/shared/utils/util-router/src/index.ts"
-      ]
+      ],
+      "@workshop/shared-ui-filters": ["libs/shared/ui/ui-filters/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

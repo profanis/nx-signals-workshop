@@ -17,6 +17,10 @@ import { PlantFilterComponent, SearchPillsComponent } from '../components';
 import { CatalogueFeatureCatalogueFilters } from '@workshop/catalogue-feature-catalogue-filters';
 import { FilterState } from '@workshop/catalogue-types';
 import { serializeObjectToQueryParams } from '@workshop/shared-util-router';
+import {
+  createWrapperAtomicFilterController,
+  WRAPPER_CONTROLLER,
+} from '@workshop/shared-ui-filters';
 @Component({
   selector: 'lib-feature-catalogue',
   imports: [
@@ -30,10 +34,18 @@ import { serializeObjectToQueryParams } from '@workshop/shared-util-router';
     SearchPillsComponent,
     CatalogueFeatureCatalogueFilters,
   ],
+
   templateUrl: './catalogue.component.html',
   styleUrl: './catalogue.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ProductsApi, CatalogueLocalState],
+  providers: [
+    ProductsApi,
+    CatalogueLocalState,
+    {
+      provide: WRAPPER_CONTROLLER,
+      useFactory: () => createWrapperAtomicFilterController(),
+    },
+  ],
 })
 export class CatalogueComponent {
   readonly state = inject(CatalogueLocalState);
@@ -64,6 +76,7 @@ export class CatalogueComponent {
     this.state.page.update((page) => page + 1);
   }
 
+  // TODO(FP): the atomicFilter should be responsible to serialize the selected values to FilterState
   searchProducts(filtersState: FilterState): void {
     /**
      * Talk Note: The first approach might be to make an http request with the filters applied.
