@@ -1,65 +1,39 @@
 <div class="filters-container">
   <form [formGroup]="filterForm">
     <!-- Light Requirements Filter -->
-    <section class="filter-section">
-      <h3 class="filter-title">Light Requirements</h3>
-      <div class="filter-content" formArrayName="lightRequirements">
-        @for (requirement of lightRequirements(); track requirement.value; let i = $index) {
-          <div class="checkbox-row">
-            <mat-checkbox
-              [formControlName]="i"
-              class="filter-checkbox">
-              {{ requirement.label }}
-            </mat-checkbox>
-            <span class="count">{{ requirement.count }}</span>
-          </div>
-        }
-      </div>
-    </section>
+    <lib-checkbox-filter
+      [options]="lightRequirements()"
+      title="Light Requirements"
+      formControlName="lightRequirements"
+    />
 
     <!-- Plant Properties Filter -->
-    <section class="filter-section">
-      <h3 class="filter-title">Plant Properties</h3>
-      <div class="filter-content">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Select Property</mat-label>
-          <mat-select formControlName="plantProperty">
-            <mat-option [value]="null">None</mat-option>
-            @for (property of plantProperties(); track property.value) {
-              <mat-option [value]="property.value">
-                {{ property.label }} ({{ property.count }})
-              </mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </section>
+    <lib-select-filter
+      [options]="plantProperties()"
+      title="Plant Properties"
+      placeholder="Select Property"
+      formControlName="plantProperty"
+    />
 
     <!-- Plant Type Filter -->
-    <section class="filter-section">
-      <h3 class="filter-title">Plant Type</h3>
-      <div class="filter-content">
-        <mat-radio-group
-          formControlName="plantType"
-          class="plant-type-radio-group">
-          @for (type of plantTypes(); track type.value) {
-            <mat-radio-button
-              [value]="type.value"
-              class="plant-type-radio">
-              {{ type.label }}
-            </mat-radio-button>
-          }
-        </mat-radio-group>
-      </div>
-    </section>
+    <lib-radio-filter
+      [options]="plantTypes()"
+      title="Plant Type"
+      formControlName="plantType"
+    />
 
     <!-- Clear Filters Button -->
     @if (hasActiveFilters()) {
-      <section class="filter-section">
-        <button mat-raised-button color="primary" type="button" (click)="clearFilters()">
-          Clear All Filters
-        </button>
-      </section>
+    <section class="filter-section">
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="clearFilters()"
+      >
+        Clear All Filters
+      </button>
+    </section>
     }
   </form>
 </div>

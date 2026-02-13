@@ -3,25 +3,23 @@ import {
   Component,
   computed,
   effect,
-  inject,
   signal,
 } from '@angular/core';
-import {
-  ReactiveFormsModule,
-  FormBuilder,
-  FormGroup,
-  FormArray,
-} from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { FilterState } from '@workshop/catalogue-types';
-import { deserializeQueryParamsToObject } from '@workshop/shared-util-router';
+import {
+  CheckboxFilterComponent,
+  RadioFilterComponent,
+  SelectFilterComponent,
+} from '@workshop/shared-ui-filters';
+import { injectFilterStateAdapter } from './filter-state-adapter';
+
 export interface LightRequirement {
   value: string;
   label: string;
@@ -48,6 +46,9 @@ export interface PlantType {
     MatFormFieldModule,
     MatRadioModule,
     MatButtonModule,
+    CheckboxFilterComponent,
+    RadioFilterComponent,
+    SelectFilterComponent,
   ],
   templateUrl: './catalogue-feature-catalogue-filters.html',
   styleUrl: './catalogue-feature-catalogue-filters.scss',
@@ -55,12 +56,7 @@ export interface PlantType {
 })
 export class CatalogueFeatureCatalogueFilters {
   private readonly fb = new FormBuilder();
-  private readonly route = inject(ActivatedRoute);
-
-  // Convert queryParams observable to signal for reactive updates
-  private readonly queryParams = toSignal(this.route.queryParams, {
-    initialValue: {},
-  });
+  private readonly filterAdapter = injectFilterStateAdapter();
 
   filtersChanged = output<FilterState>();
 
@@ -87,11 +83,21 @@ export class CatalogueFeatureCatalogueFilters {
   ]);
 
   // Reactive Form
-  readonly filterForm: FormGroup;
+  readonly filterForm: FormGroup = this.fb.group({
+    lightRequirements: this.fb.control<boolean[]>([]),
+    plantProperty: this.fb.control<string | null>(null),
+    plantType: this.fb.control<string | null>(null),
+  });
 
-  // Computed state for active filters
+  // Writable signal to track form value - updated from both valueChanges and adapter population
+  private readonly formValues = signal(this.filterForm.value);
+
+  // Computed state for active filters using the form values
   readonly hasActiveFilters = computed(() => {
-    const formValue = this.currentFormValue();
+    const formValue = this.formValues();
+    if (!formValue) {
+      return false;
+    }
     const hasLightReqs =
       formValue.lightRequirements?.some((val: boolean) => val) ?? false;
     const hasProperty = !!formValue.plantProperty;
@@ -99,41 +105,17 @@ export class CatalogueFeatureCatalogueFilters {
     return hasLightReqs || hasProperty || hasType;
   });
 
-  // Signal to track form value changes
-  private readonly currentFormValue = signal(this.getInitialFormValue());
-
   constructor() {
-    this.filterForm = this.fb.group({
-      lightRequirements: this.fb.array(
-        this.lightRequirements().map(() => this.fb.control(false)),
-      ),
-      plantProperty: this.fb.control<string | null>(null),
-      plantType: this.fb.control<string | null>(null),
-    });
-
-    // Subscribe to form changes and emit filter state
-    this.filterForm.valueChanges.subscribe(() => {
-      this.currentFormValue.set(this.filterForm.value);
+    // Subscribe to form changes and emit filter state using the adapter
+    this.filterForm.valueChanges.subscribe((value) => {
+      this.formValues.set(value);
       this.emitFilterState();
     });
 
-    // React to query params changes and populate the form
+    // React to adapter's filter state changes and populate the form
     effect(() => {
-      const queryParams = this.queryParams();
-      this.populateFiltersFromQueryParams(queryParams);
+      this.populateFormFromAdapter();
     });
-  }
-
-  get lightRequirementsArray(): FormArray {
-    return this.filterForm.get('lightRequirements') as FormArray;
-  }
-
-  private getInitialFormValue() {
-    return {
-      lightRequirements: this.lightRequirements().map(() => false),
-      plantProperty: null,
-      plantType: null,
-    };
   }
 
   private emitFilterState(): void {
@@ -142,11 +124,12 @@ export class CatalogueFeatureCatalogueFilters {
       .filter((_, index) => formValue.lightRequirements[index])
       .map((req) => req.value);
 
-    const filterState: FilterState = {
+    // Use adapter's patch to create the new filter state
+    const filterState = this.filterAdapter.patch({
       lightRequirements: selectedLightReqs,
       plantProperty: formValue.plantProperty,
       plantType: formValue.plantType,
-    };
+    });
 
     this.filtersChanged.emit(filterState);
   }
@@ -160,40 +143,27 @@ export class CatalogueFeatureCatalogueFilters {
   }
 
   /**
-   * Reads the query params from the URL and populates the form with the filter values.
-   * This method deserializes query params that were serialized by the searchProducts method
-   * in CatalogueComponent using serializeObjectToQueryParams.
+   * Reads the filter state from the adapter and populates the form.
+   * The adapter handles URL query params deserialization internally.
    */
-  private populateFiltersFromQueryParams(
-    queryParams: Record<string, string | string[] | null | undefined>,
-  ): void {
-    const defaultFilterState: FilterState = {
-      lightRequirements: [],
-      plantProperty: null,
-      plantType: null,
-    };
-
-    const filterState = deserializeQueryParamsToObject(
-      queryParams,
-      defaultFilterState,
-    );
+  private populateFormFromAdapter(): void {
+    const filterState = this.filterAdapter.filterState();
 
     // Convert lightRequirements array of values to boolean array for the form
     const lightRequirementsBooleans = this.lightRequirements().map((req) =>
       filterState.lightRequirements.includes(req.value),
     );
 
-    // Update the form without emitting valueChanges to avoid circular updates
-    this.filterForm.setValue(
-      {
-        lightRequirements: lightRequirementsBooleans,
-        plantProperty: filterState.plantProperty,
-        plantType: filterState.plantType,
-      },
-      { emitEvent: false },
-    );
+    const formValue = {
+      lightRequirements: lightRequirementsBooleans,
+      plantProperty: filterState.plantProperty,
+      plantType: filterState.plantType,
+    };
 
-    // Update the current form value signal
-    this.currentFormValue.set(this.filterForm.value);
+    // Update the form without emitting valueChanges to avoid circular updates
+    this.filterForm.setValue(formValue, { emitEvent: false });
+
+    // Also update the formValues signal since emitEvent: false won't trigger valueChanges
+    this.formValues.set(formValue);
   }
 }
