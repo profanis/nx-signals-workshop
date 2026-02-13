@@ -1,77 +1,36 @@
-import { computed, linkedSignal, Signal, untracked } from '@angular/core';
-import { WrapperAtomicFilterController } from './wrapper-filter.controller';
+import { computed, linkedSignal, untracked } from '@angular/core';
+
 import {
-  AtomicFilterController,
-  AtomicFilterControllerBaseData,
-  Pill,
+  RadioAtomicFilterController,
+  RadioAtomicFilterControllerProps,
+  RadioFilterValue,
 } from '@workshop/shared-types';
-
-export type RadioFilterValue = {
-  value: string;
-  label: string;
-};
-
-export interface RadioAtomicFilterControllerProps {
-  filterName: string;
-  options: RadioFilterValue[];
-  selectedValue: Signal<RadioFilterValue | null>;
-  wrapperController: WrapperAtomicFilterController;
-  methods: {
-    applyFilter: (selectedValues: RadioFilterValue | null) => void;
-  };
-}
-
-export interface RadioAtomicFilterControllerData
-  extends AtomicFilterControllerBaseData<RadioFilterValue> {
-  pills: Signal<Pill[]>;
-  options: RadioFilterValue[];
-  selectedValue: Signal<RadioFilterValue | null>;
-  hasFilters: Signal<boolean>;
-}
-
-export interface RadioAtomicFilterController
-  extends AtomicFilterController<
-    RadioFilterValue,
-    RadioAtomicFilterControllerData
-  > {
-  controllerName: string;
-  data: {
-    pills: Signal<Pill[]>;
-    options: RadioFilterValue[];
-    selectedValue: Signal<RadioFilterValue | null>;
-    hasFilters: Signal<boolean>;
-  };
-  methods: {
-    setFilter: (value: RadioFilterValue | RadioFilterValue[] | null) => void;
-    applyFilter: () => void;
-    removeFilter: (value: RadioFilterValue | null) => void;
-  };
-}
+import {
+  createHasFilters,
+  createSingleValuePills,
+  defaultPillLabelFormatter,
+  singleValueEquals,
+} from '@workshop/shared-util-filters';
 
 export function injectRadioAtomicFilterController(
   props: RadioAtomicFilterControllerProps,
 ): RadioAtomicFilterController {
-  // Construct Pills
-  const pills: Signal<Pill[]> = computed(() => {
-    return props.selectedValue()
-      ? [
-          {
-            key: props.filterName,
-            value: props.selectedValue()?.value || '',
-            label: `${props.filterName}:${props.selectedValue()?.value || ''}`,
-            controllerName: props.filterName,
-          },
-        ]
-      : [];
-  });
+  const formatLabel = props.formatPillLabel ?? defaultPillLabelFormatter;
 
   const selectedFilter = linkedSignal<RadioFilterValue | null>(
     () => props.selectedValue?.() || null,
   );
 
   const selectedFilterEq = computed(() => selectedFilter(), {
-    equal: (a, b) => a?.value === b?.value,
+    equal: singleValueEquals,
   });
+
+  // Use utility function for pills
+  const pills = createSingleValuePills(
+    props.filterName,
+    props.selectedValue,
+    formatLabel,
+  );
 
   const setFilter = (filter: RadioFilterValue | RadioFilterValue[] | null) => {
     if (Array.isArray(filter)) {
@@ -86,19 +45,18 @@ export function injectRadioAtomicFilterController(
     untracked(() => props.methods.applyFilter(selectedFilter()));
   };
 
-  const controller = {
+  const controller: RadioAtomicFilterController = {
     controllerName: props.filterName,
     data: {
-      pills: pills,
+      pills,
       options: props.options,
       selectedValue: selectedFilterEq,
-      hasFilters: computed(() => pills().length > 0),
+      hasFilters: createHasFilters(pills),
     },
     methods: {
       setFilter,
       applyFilter,
       removeFilter: () => {
-        selectedFilter.set(null);
         setFilter(null);
       },
     },

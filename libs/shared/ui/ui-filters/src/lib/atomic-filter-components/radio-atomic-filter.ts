@@ -8,8 +8,7 @@ import { form, FormField } from '@angular/forms/signals';
 import {
   RadioAtomicFilterController,
   RadioFilterValue,
-} from '../atomic-filter-controllers';
-import { JsonPipe } from '@angular/common';
+} from '@workshop/shared-types';
 
 @Component({
   selector: 'lib-radio-atomic-filter',
@@ -20,7 +19,6 @@ import { JsonPipe } from '@angular/common';
     MatRadioModule,
     MatButtonModule,
     FormField,
-    JsonPipe,
   ],
   styles: `
     .filter-section {
@@ -46,7 +44,7 @@ import { JsonPipe } from '@angular/common';
     @let _controller = controller();
 
     <section class="filter-section">
-      <h3 class="filter-title">Plant Type</h3>
+      <h3 class="filter-title">{{ title() }}</h3>
       <div class="filter-content">
         <mat-radio-group [formField]="selectedItemForm">
           @for (type of _controller.data.options; track type.value) {
@@ -61,6 +59,7 @@ import { JsonPipe } from '@angular/common';
 })
 export class RadioAtomicFilterComponent {
   controller = input.required<RadioAtomicFilterController>();
+  title = input.required<string>();
 
   selectedItemForm = form<RadioFilterValue | null>(signal(null));
 

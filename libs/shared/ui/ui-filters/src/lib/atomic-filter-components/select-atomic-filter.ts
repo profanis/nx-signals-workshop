@@ -1,22 +1,15 @@
-import {
-  Component,
-  computed,
-  effect,
-  input,
-  linkedSignal,
-  signal,
-  untracked,
-} from '@angular/core';
+import { Component, effect, input, signal, untracked } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+
+import { form, FormField } from '@angular/forms/signals';
 import {
   SelectAtomicFilterController,
   SelectFilterValue,
-} from '../atomic-filter-controllers/select-filter.controller';
-import { form, FormField } from '@angular/forms/signals';
+} from '@workshop/shared-types';
 
 @Component({
   selector: 'lib-select-atomic-filter',
@@ -52,10 +45,10 @@ import { form, FormField } from '@angular/forms/signals';
     @let _controller = controller();
 
     <section class="filter-section">
-      <h3 class="filter-title">Plant Properties</h3>
+      <h3 class="filter-title">{{ title() }}</h3>
       <div class="filter-content">
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Select Property</mat-label>
+          <mat-label>{{ placeholder() }}</mat-label>
           <mat-select [formField]="selectedItemForm">
             <mat-option [value]="null">None</mat-option>
             @for (property of _controller.data.options; track property.value) {
@@ -71,27 +64,10 @@ import { form, FormField } from '@angular/forms/signals';
 })
 export class SelectAtomicFilterComponent {
   controller = input.required<SelectAtomicFilterController>();
+  title = input.required<string>();
+  placeholder = input<string>('Select an option');
 
   selectedItemForm = form<SelectFilterValue | null>(signal(null));
-
-  // selectedItem = computed(() => {
-  //   const selectedValue = this.controller().data.selectedValue();
-  //   return selectedValue?.label;
-  // });
-
-  // checkboxChange($event: MatCheckboxChange, requirement: SelectFilterValue) {
-  //   const currentValue = this._selectFilterFormValue();
-  //   let newValue: SelectFilterValue[];
-  //   if ($event.checked) {
-  //     newValue = [...currentValue, requirement];
-  //   } else {
-  //     newValue = currentValue.filter(
-  //       (item) => item.value !== requirement.value,
-  //     );
-  //   }
-  //   this._selectFilterFormValue.set(newValue);
-  //   this.controller().methods.setFilter(newValue);
-  // }
 
   constructor() {
     effect(() => {

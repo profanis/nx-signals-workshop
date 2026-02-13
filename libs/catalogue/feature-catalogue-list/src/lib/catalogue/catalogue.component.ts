@@ -17,10 +17,8 @@ import { PlantFilterComponent, SearchPillsComponent } from '../components';
 import { CatalogueFeatureCatalogueFilters } from '@workshop/catalogue-feature-catalogue-filters';
 import { FilterState } from '@workshop/catalogue-types';
 import { serializeObjectToQueryParams } from '@workshop/shared-util-router';
-import {
-  createWrapperAtomicFilterController,
-  WRAPPER_CONTROLLER,
-} from '@workshop/shared-ui-filters';
+import { createWrapperAtomicFilterController } from '@workshop/shared-ui-filters';
+import { WRAPPER_CONTROLLER } from '@workshop/shared-types';
 @Component({
   selector: 'lib-feature-catalogue',
   imports: [

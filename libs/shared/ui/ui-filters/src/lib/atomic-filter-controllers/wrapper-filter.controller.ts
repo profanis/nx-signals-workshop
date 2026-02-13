@@ -1,29 +1,10 @@
-import { computed, inject, InjectionToken, Signal } from '@angular/core';
+import { computed } from '@angular/core';
 import {
   AtomicFilterController,
   AtomicFilterControllerBaseData,
   Pill,
+  WrapperAtomicFilterController,
 } from '@workshop/shared-types';
-export interface WrapperAtomicFilterController {
-  data: {
-    pills: Signal<Pill[]>;
-    hasFilters: Signal<boolean>;
-  };
-  methods: {
-    applyFilters: () => void;
-    removeFilter: (event: Pill | 'all') => void;
-    register: (controller: any) => void;
-  };
-}
-
-export const WRAPPER_CONTROLLER =
-  new InjectionToken<WrapperAtomicFilterController>(
-    ngDevMode ? 'wrapper controller' : '',
-  );
-
-export function injectWrapperController() {
-  return inject(WRAPPER_CONTROLLER);
-}
 
 export function createWrapperAtomicFilterController(): WrapperAtomicFilterController {
   const controllers: AtomicFilterController<

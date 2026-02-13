@@ -1,13 +1,23 @@
 <div class="filters-container">
   <form>
     <!-- Light Requirements Filter -->
-    <lib-checkbox-atomic-filter [controller]="checkboxFilterController" />
+    <lib-checkbox-atomic-filter
+      [controller]="checkboxFilterController"
+      title="Light Requirements"
+    />
 
     <!-- Plant Properties Filter -->
-    <lib-select-atomic-filter [controller]="selectFilterController" />
+    <lib-select-atomic-filter
+      [controller]="selectFilterController"
+      title="Plant Properties"
+      placeholder="Select Property"
+    />
 
     <!-- Plant Type Filter -->
-    <lib-radio-atomic-filter [controller]="radioController" />
+    <lib-radio-atomic-filter
+      [controller]="radioController"
+      title="Plant Type"
+    />
 
     <!-- Clear Filters Button -->
     @if (wrapperController.data.hasFilters()) {

@@ -1,78 +1,36 @@
-import { computed, linkedSignal, Signal, untracked } from '@angular/core';
-import { WrapperAtomicFilterController } from './wrapper-filter.controller';
+import { computed, linkedSignal, untracked } from '@angular/core';
+
 import {
-  AtomicFilterController,
-  AtomicFilterControllerBaseData,
-  Pill,
+  SelectAtomicFilterController,
+  SelectAtomicFilterControllerProps,
+  SelectFilterValue,
 } from '@workshop/shared-types';
-
-export type SelectFilterValue = {
-  value: string;
-  label: string;
-  count: number;
-};
-
-export interface SelectAtomicFilterControllerProps {
-  filterName: string;
-  options: SelectFilterValue[];
-  selectedValue: Signal<SelectFilterValue | null>;
-  wrapperController: WrapperAtomicFilterController;
-  methods: {
-    applyFilter: (selectedValues: SelectFilterValue | null) => void;
-  };
-}
-
-export interface SelectAtomicFilterControllerData
-  extends AtomicFilterControllerBaseData<SelectFilterValue> {
-  pills: Signal<Pill[]>;
-  options: SelectFilterValue[];
-  selectedValue: Signal<SelectFilterValue | null>;
-  hasFilters: Signal<boolean>;
-}
-
-export interface SelectAtomicFilterController
-  extends AtomicFilterController<
-    SelectFilterValue,
-    SelectAtomicFilterControllerData
-  > {
-  controllerName: string;
-  data: {
-    pills: Signal<Pill[]>;
-    options: SelectFilterValue[];
-    selectedValue: Signal<SelectFilterValue | null>;
-    hasFilters: Signal<boolean>;
-  };
-  methods: {
-    setFilter: (value: SelectFilterValue | SelectFilterValue[] | null) => void;
-    applyFilter: () => void;
-    removeFilter: (value: SelectFilterValue | null) => void;
-  };
-}
+import {
+  createHasFilters,
+  createSingleValuePills,
+  defaultPillLabelFormatter,
+  singleValueEquals,
+} from '@workshop/shared-util-filters';
 
 export function injectSelectAtomicFilterController(
   props: SelectAtomicFilterControllerProps,
 ): SelectAtomicFilterController {
-  // Construct Pills
-  const pills: Signal<Pill[]> = computed(() => {
-    return props.selectedValue()
-      ? [
-          {
-            key: props.filterName,
-            value: props.selectedValue()?.value || '',
-            label: `${props.filterName}:${props.selectedValue()?.value || ''}`,
-            controllerName: props.filterName,
-          },
-        ]
-      : [];
-  });
+  const formatLabel = props.formatPillLabel ?? defaultPillLabelFormatter;
 
   const selectedFilter = linkedSignal<SelectFilterValue | null>(
     () => props.selectedValue?.() || null,
   );
 
   const selectedFilterEq = computed(() => selectedFilter(), {
-    equal: (a, b) => a?.value === b?.value,
+    equal: singleValueEquals,
   });
+
+  // Use utility function for pills
+  const pills = createSingleValuePills(
+    props.filterName,
+    props.selectedValue,
+    formatLabel,
+  );
 
   const setFilter = (
     filter: SelectFilterValue | SelectFilterValue[] | null,
@@ -89,13 +47,13 @@ export function injectSelectAtomicFilterController(
     untracked(() => props.methods.applyFilter(selectedFilter()));
   };
 
-  const controller = {
+  const controller: SelectAtomicFilterController = {
     controllerName: props.filterName,
     data: {
-      pills: pills,
+      pills,
       options: props.options,
       selectedValue: selectedFilterEq,
-      hasFilters: computed(() => pills().length > 0),
+      hasFilters: createHasFilters(pills),
     },
     methods: {
       setFilter,

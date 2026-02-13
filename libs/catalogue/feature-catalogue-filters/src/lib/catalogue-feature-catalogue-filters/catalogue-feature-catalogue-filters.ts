@@ -5,29 +5,29 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { FilterState } from '@workshop/catalogue-types';
-import { deserializeQueryParamsToObject } from '@workshop/shared-util-router';
 import {
   CheckboxAtomicFilterComponent,
-  CheckboxFilterValue,
   injectCheckboxAtomicFilterController,
   injectRadioAtomicFilterController,
   injectSelectAtomicFilterController,
   RadioAtomicFilterComponent,
-  RadioFilterValue,
   SelectAtomicFilterComponent,
+} from '@workshop/shared-ui-filters';
+import { injectFilterStateAdapter } from './filter-state-adapter';
+import {
+  CheckboxFilterValue,
+  RadioFilterValue,
   SelectFilterValue,
   WRAPPER_CONTROLLER,
-} from '@workshop/shared-ui-filters';
+} from '@workshop/shared-types';
 
 export interface LightRequirement {
   value: string;
@@ -66,13 +66,8 @@ export interface PlantType {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CatalogueFeatureCatalogueFilters {
-  private readonly fb = new FormBuilder();
-  private readonly route = inject(ActivatedRoute);
-
-  // Convert queryParams observable to signal for reactive updates
-  private readonly queryParams = toSignal(this.route.queryParams, {
-    initialValue: {},
-  });
+  // Filter state adapter - centralized URL state management
+  private readonly filterAdapter = injectFilterStateAdapter();
 
   filtersChanged = output<FilterState>();
 
@@ -104,45 +99,23 @@ export class CatalogueFeatureCatalogueFilters {
     filterName: 'lightRequirements',
     wrapperController: this.wrapperController,
     options: this.lightRequirements(),
-    selectedValues: computed(() => {
-      const defaultFilterState: FilterState = {
-        lightRequirements: [],
-        plantProperty: null,
-        plantType: null,
-      };
-
-      const filterState = deserializeQueryParamsToObject(
-        this.queryParams(),
-        defaultFilterState,
-      );
-
-      return filterState.lightRequirements.map((value) => {
-        return {
-          value,
-          label: value,
-          count: 0,
-        } as CheckboxFilterValue;
-      });
-    }),
+    selectedValues: computed(() =>
+      this.filterAdapter.getLightRequirements().map(
+        (value) =>
+          ({
+            value,
+            label: value,
+            count: 0,
+          }) as CheckboxFilterValue,
+      ),
+    ),
     methods: {
       applyFilter: (selectedValues: CheckboxFilterValue[]) => {
-        const defaultFilterState: FilterState = {
-          lightRequirements: [],
-          plantProperty: null,
-          plantType: null,
-        };
-
-        const filterState = deserializeQueryParamsToObject(
-          this.queryParams(),
-          defaultFilterState,
+        this.filtersChanged.emit(
+          this.filterAdapter.patch({
+            lightRequirements: selectedValues.map((val) => val.value),
+          }),
         );
-
-        const newFilters = {
-          ...filterState,
-          lightRequirements: selectedValues.map((val) => val.value),
-        };
-
-        this.filtersChanged.emit(newFilters);
       },
     },
   });
@@ -152,44 +125,22 @@ export class CatalogueFeatureCatalogueFilters {
     wrapperController: this.wrapperController,
     options: this.plantProperties(),
     selectedValue: computed(() => {
-      const defaultFilterState: FilterState = {
-        lightRequirements: [],
-        plantProperty: null,
-        plantType: null,
-      };
-
-      const filterState = deserializeQueryParamsToObject(
-        this.queryParams(),
-        defaultFilterState,
-      );
-
-      return filterState.plantProperty
+      const plantProperty = this.filterAdapter.getPlantProperty();
+      return plantProperty
         ? ({
-            value: filterState.plantProperty,
-            label: filterState.plantProperty,
+            value: plantProperty,
+            label: plantProperty,
             count: 0,
           } as SelectFilterValue)
         : null;
     }),
     methods: {
       applyFilter: (selectedValue: SelectFilterValue | null) => {
-        const defaultFilterState: FilterState = {
-          lightRequirements: [],
-          plantProperty: null,
-          plantType: null,
-        };
-
-        const filterState = deserializeQueryParamsToObject(
-          this.queryParams(),
-          defaultFilterState,
+        this.filtersChanged.emit(
+          this.filterAdapter.patch({
+            plantProperty: selectedValue ? selectedValue.value : null,
+          }),
         );
-
-        const newFilters = {
-          ...filterState,
-          plantProperty: selectedValue ? selectedValue.value : null,
-        };
-
-        this.filtersChanged.emit(newFilters);
       },
     },
   });
@@ -199,43 +150,21 @@ export class CatalogueFeatureCatalogueFilters {
     wrapperController: this.wrapperController,
     options: this.plantTypes(),
     selectedValue: computed(() => {
-      const defaultFilterState: FilterState = {
-        lightRequirements: [],
-        plantProperty: null,
-        plantType: null,
-      };
-
-      const filterState = deserializeQueryParamsToObject(
-        this.queryParams(),
-        defaultFilterState,
-      );
-
-      return filterState.plantType
+      const plantType = this.filterAdapter.getPlantType();
+      return plantType
         ? ({
-            value: filterState.plantType,
-            label: filterState.plantType,
+            value: plantType,
+            label: plantType,
           } as RadioFilterValue)
         : null;
     }),
     methods: {
       applyFilter: (selectedValue: RadioFilterValue | null) => {
-        const defaultFilterState: FilterState = {
-          lightRequirements: [],
-          plantProperty: null,
-          plantType: null,
-        };
-
-        const filterState = deserializeQueryParamsToObject(
-          this.queryParams(),
-          defaultFilterState,
+        this.filtersChanged.emit(
+          this.filterAdapter.patch({
+            plantType: selectedValue ? selectedValue.value : null,
+          }),
         );
-
-        const newFilters = {
-          ...filterState,
-          plantType: selectedValue ? selectedValue.value : null,
-        };
-
-        this.filtersChanged.emit(newFilters);
       },
     },
   });

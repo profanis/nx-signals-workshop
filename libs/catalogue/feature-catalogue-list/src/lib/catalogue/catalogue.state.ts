@@ -42,7 +42,7 @@ export class CatalogueLocalState {
 
   constructor() {
     effect(() => {
-      console.log(this.filterState());
+      console.log('Filter state changed:', this.filterState());
     });
   }
 

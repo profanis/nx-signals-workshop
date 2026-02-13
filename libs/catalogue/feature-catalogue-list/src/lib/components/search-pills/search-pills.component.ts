@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { WRAPPER_CONTROLLER } from '@workshop/shared-ui-filters';
+import { WRAPPER_CONTROLLER } from '@workshop/shared-types';
 
 @Component({
   selector: 'lib-search-pills',

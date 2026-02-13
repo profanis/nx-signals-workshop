@@ -1,8 +1,5 @@
 import { Component, computed, input, linkedSignal } from '@angular/core';
-import {
-  CheckboxAtomicFilterController,
-  CheckboxFilterValue,
-} from '../atomic-filter-controllers/chekbox-filter.controller';
+
 import { MatButtonModule } from '@angular/material/button';
 import {
   MatCheckboxChange,
@@ -11,6 +8,10 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import {
+  CheckboxAtomicFilterController,
+  CheckboxFilterValue,
+} from '@workshop/shared-types';
 
 @Component({
   selector: 'lib-checkbox-atomic-filter',
@@ -50,7 +51,7 @@ import { MatSelectModule } from '@angular/material/select';
   template: ` @let _controller = controller();
 
     <section class="filter-section">
-      <h3 class="filter-title">Light Requirements</h3>
+      <h3 class="filter-title">{{ title() }}</h3>
       <div class="filter-content">
         @for (
           requirement of _controller.data.options;
@@ -73,6 +74,7 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class CheckboxAtomicFilterComponent {
   controller = input.required<CheckboxAtomicFilterController>();
+  title = input.required<string>();
 
   private _checkboxFilterFormValue = linkedSignal<CheckboxFilterValue[]>(() =>
     this.controller().data.selectedValues(),

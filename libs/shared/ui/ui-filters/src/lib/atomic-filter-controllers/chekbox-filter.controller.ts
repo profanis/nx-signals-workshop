@@ -1,75 +1,33 @@
-import { computed, linkedSignal, Signal, untracked } from '@angular/core';
-import { WrapperAtomicFilterController } from './wrapper-filter.controller';
+import { computed, linkedSignal, untracked } from '@angular/core';
+
 import {
-  AtomicFilterController,
-  AtomicFilterControllerBaseData,
-  Pill,
+  CheckboxAtomicFilterController,
+  CheckboxAtomicFilterControllerProps,
+  CheckboxFilterValue,
 } from '@workshop/shared-types';
-
-export type CheckboxFilterValue = {
-  value: string;
-  label: string;
-  count: number;
-};
-
-export interface CheckboxAtomicFilterControllerData
-  extends AtomicFilterControllerBaseData<CheckboxFilterValue> {
-  pills: Signal<Pill[]>;
-  options: CheckboxFilterValue[];
-  selectedValues: Signal<CheckboxFilterValue[]>;
-  hasFilters: Signal<boolean>;
-}
-
-export interface CheckboxAtomicFilterControllerProps {
-  filterName: string;
-  options: CheckboxFilterValue[];
-  selectedValues: Signal<CheckboxFilterValue[]>;
-  wrapperController: WrapperAtomicFilterController;
-  methods: {
-    applyFilter: (selectedValues: CheckboxFilterValue[]) => void;
-    removeFilter?: (value: Pill) => void;
-  };
-}
-
-export interface CheckboxAtomicFilterController
-  extends AtomicFilterController<
-    CheckboxFilterValue,
-    CheckboxAtomicFilterControllerData
-  > {
-  controllerName: string;
-  data: {
-    pills: Signal<Pill[]>;
-    options: CheckboxFilterValue[];
-    selectedValues: Signal<CheckboxFilterValue[]>;
-    hasFilters: Signal<boolean>;
-  };
-  methods: {
-    setFilter: (
-      value: CheckboxFilterValue[] | CheckboxFilterValue | null,
-    ) => void;
-    applyFilter: () => void;
-    removeFilter: (value: CheckboxFilterValue | null) => void;
-  };
-}
-
+import {
+  createHasFilters,
+  createMultiValuePills,
+  defaultPillLabelFormatter,
+  multiValueEquals,
+} from '@workshop/shared-util-filters';
 export function injectCheckboxAtomicFilterController(
   props: CheckboxAtomicFilterControllerProps,
 ): CheckboxAtomicFilterController {
-  // Construct Pills
-  const pills: Signal<Pill[]> = computed(() => {
-    return props.selectedValues().map(({ value }) => ({
-      key: props.filterName,
-      value,
-      label: `${props.filterName}:${value}`,
-      controllerName: props.filterName,
-    }));
-  });
+  const formatLabel = props.formatPillLabel ?? defaultPillLabelFormatter;
 
   const selectedFilters = linkedSignal(() => props.selectedValues());
+
   const selectedFilterEq = computed(() => selectedFilters(), {
-    // TODO: don't use JSON.stringify for equality check in production code, this is just for demo purposes
-    equal: (a, b) => JSON.stringify(a) === JSON.stringify(b),
+    equal: multiValueEquals,
   });
+
+  // Use utility function for pills
+  const pills = createMultiValuePills(
+    props.filterName,
+    props.selectedValues,
+    formatLabel,
+  );
 
   const setFilter = (
     filters: CheckboxFilterValue[] | CheckboxFilterValue | null,
@@ -91,30 +49,23 @@ export function injectCheckboxAtomicFilterController(
   const controller: CheckboxAtomicFilterController = {
     controllerName: props.filterName,
     data: {
-      pills: pills,
+      pills,
       options: props.options,
       selectedValues: selectedFilterEq,
-      hasFilters: computed(() => pills().length > 0),
+      hasFilters: createHasFilters(pills),
     },
     methods: {
       setFilter,
       applyFilter,
       removeFilter: (value: CheckboxFilterValue | null) => {
         if (!value) {
+          setFilter([]);
           return;
         }
         const newFilters = selectedFilters().filter(
           (filter) => filter.value !== value.value,
         );
         setFilter(newFilters);
-        if (typeof props.methods.removeFilter === 'function') {
-          props.methods.removeFilter({
-            key: props.filterName,
-            value: value.value,
-            label: `${props.filterName}:${value.value}`,
-            controllerName: props.filterName,
-          });
-        }
       },
     },
   };
