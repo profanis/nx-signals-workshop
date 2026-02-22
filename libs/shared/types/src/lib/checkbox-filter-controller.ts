@@ -5,8 +5,10 @@ import {
 } from './filter-controller';
 import { Pill } from './pill';
 import { WrapperAtomicFilterController } from './wrapper-filter-controller';
+// TODO(FP): FIX!! Circular dependency
 import { PillLabelFormatter } from '@workshop/shared-util-filters';
 
+// TODO(FP): rename that to CheckboxOption?
 export type CheckboxFilterValue = {
   value: string;
   label: string;
