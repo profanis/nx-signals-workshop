@@ -11,6 +11,7 @@ import {
   defaultPillLabelFormatter,
   multiValueEquals,
 } from '@workshop/shared-util-filters';
+
 export function injectCheckboxAtomicFilterController(
   props: CheckboxAtomicFilterControllerProps,
 ): CheckboxAtomicFilterController {
