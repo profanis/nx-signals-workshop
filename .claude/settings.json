@@ -1,4 +1,66 @@
 {
+  "model": "claude-sonnet-4-6",
+  "permissions": {
+    "allow": [
+      "Read(./apps/**)",
+      "Read(./libs/**)",
+      "Read(./nx.json)",
+      "Read(./package.json)",
+      "Read(./project.json)",
+      "Read(./tsconfig.base*.json)",
+      "Read(./eslint.config*)",
+      "Read(./jest.config*)",
+      "Read(./jest.preset*)",
+      "Read(./.claude/**)",
+      "Write(./apps/**)",
+      "Write(./libs/**)",
+      "Bash(npx nx serve *)",
+      "Bash(npx nx build *)",
+      "Bash(npx nx test *)",
+      "Bash(npx nx lint *)",
+      "Bash(npx nx run-many *)",
+      "Bash(npx nx affected *)",
+      "Bash(npx nx graph *)",
+      "Bash(npx nx show *)",
+      "Bash(npx nx list *)",
+      "Bash(npx nx reset *)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ],
+    "deny": [
+      "Bash(npm install *)",
+      "Bash(npm i *)",
+      "Bash(npm ci *)",
+      "Bash(git push *)",
+      "Bash(git push --force *)",
+      "Bash(rm -rf *)",
+      "Bash(npx nx migrate *)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write(./apps/**/*.ts|./libs/**/*.ts)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx nx format:write"
+          }
+        ]
+      },
+      {
+        "matcher": "Write(./apps/**/*.html|./libs/**/*.html)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx nx format:write"
+          }
+        ]
+      }
+    ]
+  },
   "enabledMcpjsonServers": ["angular-cli"],
   "extraKnownMarketplaces": {
     "nx-claude-plugins": {
