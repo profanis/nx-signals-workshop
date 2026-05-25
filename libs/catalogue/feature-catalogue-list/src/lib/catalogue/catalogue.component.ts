@@ -16,7 +16,6 @@ import { CatalogueLocalState } from './catalogue.state';
 import { PlantFilterComponent, SearchPillsComponent } from '../components';
 import { CatalogueFeatureCatalogueFilters } from '@workshop/catalogue-feature-catalogue-filters';
 import { FilterState } from '@workshop/catalogue-types';
-import { serializeObjectToQueryParams } from '@workshop/shared-util-router';
 import { createWrapperAtomicFilterController } from '@workshop/shared-ui-filters';
 import { WRAPPER_CONTROLLER } from '@workshop/shared-types';
 @Component({
@@ -72,22 +71,5 @@ export class CatalogueComponent {
 
   onLoadMore(): void {
     this.state.page.update((page) => page + 1);
-  }
-
-  // TODO(FP): the atomicFilter should be responsible to serialize the selected values to FilterState
-  searchProducts(filtersState: FilterState): void {
-    /**
-     * Talk Note: The first approach might be to make an http request with the filters applied.
-     * An approach like this will result in loosing the filter state in the URL, so if the user refreshes
-     * the page, the filters will be lost.
-     *
-     * A better approach is to serialize the filter state into the URL as query parameters.
-     * This way, the filter state is preserved across page reloads and can be shared via URL.
-     */
-    const queryParams = serializeObjectToQueryParams(filtersState);
-
-    this.router.navigate([], {
-      queryParams,
-    });
   }
 }

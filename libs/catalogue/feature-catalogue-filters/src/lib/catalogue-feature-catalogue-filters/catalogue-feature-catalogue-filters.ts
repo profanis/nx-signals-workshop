@@ -21,13 +21,13 @@ import {
   RadioAtomicFilterComponent,
   SelectAtomicFilterComponent,
 } from '@workshop/shared-ui-filters';
-import { injectFilterStateAdapter } from './filter-state-adapter';
 import {
   CheckboxFilterValue,
   RadioFilterValue,
   SelectFilterValue,
   WRAPPER_CONTROLLER,
 } from '@workshop/shared-types';
+import { CatalogueFiltersState } from './catalogue-filters.state';
 
 export interface LightRequirement {
   value: string;
@@ -61,15 +61,13 @@ export interface PlantType {
     SelectAtomicFilterComponent,
     RadioAtomicFilterComponent,
   ],
+  providers: [CatalogueFiltersState],
   templateUrl: './catalogue-feature-catalogue-filters.html',
   styleUrl: './catalogue-feature-catalogue-filters.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CatalogueFeatureCatalogueFilters {
-  // Filter state adapter - centralized URL state management
-  private readonly filterAdapter = injectFilterStateAdapter();
-
-  filtersChanged = output<FilterState>();
+  private readonly state = inject(CatalogueFiltersState);
 
   // Light Requirements data
   readonly lightRequirements = signal<LightRequirement[]>([
@@ -99,23 +97,25 @@ export class CatalogueFeatureCatalogueFilters {
     filterName: 'lightRequirements',
     wrapperController: this.wrapperController,
     options: this.lightRequirements(),
-    selectedValues: computed(() =>
-      this.filterAdapter.getLightRequirements().map(
-        (value) =>
-          ({
-            value,
-            label: value,
-            count: 0,
-          }) as CheckboxFilterValue,
-      ),
-    ),
+    selectedValues: computed(() => {
+      const lightRequirements =
+        this.state.queryParams.value().lightRequirements;
+      return lightRequirements
+        ? lightRequirements.map(
+            (value) =>
+              ({
+                value,
+                label: value,
+                count: 0,
+              }) as CheckboxFilterValue,
+          )
+        : [];
+    }),
     methods: {
       applyFilter: (selectedValues: CheckboxFilterValue[]) => {
-        this.filtersChanged.emit(
-          this.filterAdapter.patch({
-            lightRequirements: selectedValues.map((val) => val.value),
-          }),
-        );
+        this.state.queryParams.set({
+          lightRequirements: selectedValues.map((v) => v.value),
+        });
       },
     },
   });
@@ -125,22 +125,20 @@ export class CatalogueFeatureCatalogueFilters {
     wrapperController: this.wrapperController,
     options: this.plantProperties(),
     selectedValue: computed(() => {
-      const plantProperty = this.filterAdapter.getPlantProperty();
+      const plantProperty = this.state.queryParams.value().plantProperty;
       return plantProperty
-        ? ({
+        ? {
             value: plantProperty,
             label: plantProperty,
             count: 0,
-          } as SelectFilterValue)
+          }
         : null;
     }),
     methods: {
       applyFilter: (selectedValue: SelectFilterValue | null) => {
-        this.filtersChanged.emit(
-          this.filterAdapter.patch({
-            plantProperty: selectedValue ? selectedValue.value : null,
-          }),
-        );
+        this.state.queryParams.set({
+          plantProperty: selectedValue ? selectedValue.value : null,
+        });
       },
     },
   });
@@ -150,21 +148,20 @@ export class CatalogueFeatureCatalogueFilters {
     wrapperController: this.wrapperController,
     options: this.plantTypes(),
     selectedValue: computed(() => {
-      const plantType = this.filterAdapter.getPlantType();
+      const plantType = this.state.queryParams.value().plantType;
       return plantType
-        ? ({
+        ? {
             value: plantType,
             label: plantType,
-          } as RadioFilterValue)
+            count: 0,
+          }
         : null;
     }),
     methods: {
       applyFilter: (selectedValue: RadioFilterValue | null) => {
-        this.filtersChanged.emit(
-          this.filterAdapter.patch({
-            plantType: selectedValue ? selectedValue.value : null,
-          }),
-        );
+        this.state.queryParams.set({
+          plantType: selectedValue ? selectedValue.value : null,
+        });
       },
     },
   });

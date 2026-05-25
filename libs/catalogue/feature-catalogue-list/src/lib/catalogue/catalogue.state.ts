@@ -13,7 +13,7 @@ import { map } from 'rxjs/operators';
 import { ProductsApi } from '@workshop/catalogue-data-access';
 import { FilterState, ProductsResponse } from '@workshop/catalogue-types';
 import { PageableResponse } from '@workshop/shared-types';
-import { deserializeQueryParamsToObject } from '@workshop/shared-util-router';
+import { injectQueryParamsAdapter } from '@workshop/shared-util-router';
 
 @Injectable()
 export class CatalogueLocalState {
@@ -28,21 +28,15 @@ export class CatalogueLocalState {
   };
 
   // Deserialize query params to FilterState
-  filterState = toSignal(
-    this.route.queryParams.pipe(
-      map((params) =>
-        deserializeQueryParamsToObject<FilterState>(
-          params,
-          this.defaultFilterState,
-        ),
-      ),
-    ),
-    { initialValue: this.defaultFilterState },
-  );
+  queryParams = injectQueryParamsAdapter<FilterState>({
+    lightRequirements: 'array',
+    plantProperty: 'string',
+    plantType: 'string',
+  });
 
   constructor() {
     effect(() => {
-      console.log('Filter state changed:', this.filterState());
+      console.log('Filter state changed:', this.queryParams.value());
     });
   }
 
