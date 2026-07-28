@@ -101,6 +101,7 @@ State is managed with Angular Signals — no NgRx or other state library. Prefer
 ### Import paths
 
 All cross-library imports use path aliases defined in `tsconfig.base.json`. The pattern is `@workshop/<domain>-<type>`, e.g.:
+
 - `@workshop/catalogue-data-access`
 - `@workshop/catalogue-types`
 - `@workshop/shared-ui-product-card`
@@ -114,3 +115,8 @@ All cross-library imports use path aliases defined in `tsconfig.base.json`. The 
 - `input()` signal-based inputs
 - SCSS for styles
 - Jest for unit tests (`jest-preset-angular`)
+
+## Angular & Nx Workspace Guidelines
+
+- **Rely on Agent Skills:** Assume modern Angular defaults (Signals, standalone components, inject()). Only call `mcp__angular-cli__get_best_practices` if you are explicitly unsure about a modern implementation detail.
+- **Workspace Navigation:** Skip the `list_projects` MCP tool entirely—it does not resolve reliably in this Nx monorepo structure. Rely on the file system tools to inspect `project.json` files within individual libraries instead.
