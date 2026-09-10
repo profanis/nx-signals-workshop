@@ -21,17 +21,19 @@ description: >
 
 Every state slice must follow this structure:
 
+```
 catalogue-data-access/
 ├── src/
-│ ├── lib/
-│ │ ├── actions/
-│ │ │ └── feature-name.actions.ts ← one file per state
-│ │ ├── models/
-│ │ │ └── feature-name.model.ts ← plain interface, no class
-│ │ ├── selectors/
-│ │ │ └── feature-name.selectors.ts ← one file per state
-│ │ ├── feature-name.state.ts ← @State class only
-│ └── index.ts ← all public exports here
+│   ├── lib/
+│   │   ├── actions/
+│   │   │   └── feature-name.actions.ts      one file per state
+│   │   ├── models/
+│   │   │   └── feature-name.model.ts        plain interface, no class
+│   │   ├── selectors/
+│   │   │   └── feature-name.selectors.ts    one file per state
+│   │   └── feature-name.state.ts            @State class only
+│   └── index.ts                             all public exports here
+```
 
 - State model: plain interface, never a class
 - Actions: in `actions/` subfolder, one file per state
