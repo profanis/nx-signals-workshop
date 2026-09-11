@@ -53,18 +53,10 @@ catalogue-data-access/
 - State class: `FeatureState` (e.g. `ReviewsState`, `FavoritesState`)
 - Action class: `VerbNoun` (e.g. `LoadReviews`, `AddReview`, `ToggleFavorite`)
 
-## Barrel exports
-
-Every new public symbol (component, state class, action, model interface)
-must be re-exported from the library's `index.ts`.
-Nothing outside the library may import from an internal path.
-
 ## Additional conventions
 
 - This repo uses NgXs (not NgRx)
-- This repo uses Nx 22 modulith layout (not standalone apps)
 - Feature libraries dispatch to state; UI libraries never touch the store
-- `linkedSignal` is used for derived local state in feature components
 
 ## Selectors
 
