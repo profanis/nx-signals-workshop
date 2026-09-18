@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: read
+      pull-requests: write # post the review comment
       issues: read
       id-token: write # required by the action's GitHub App auth
     steps:
@@ -49,12 +49,33 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
-            Review the changes on this pull request using the
-            code-reviewer subagent defined in .claude/agents/.
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
 
-            Diff the branch against origin/${{ github.base_ref }}.
-            Report Critical, Important and Suggestion findings.
-            Fail loudly if a blocker is found.
+            1. Delegate the review to the `code-reviewer` subagent defined in
+               .claude/agents/ using the Agent tool. Tell it to diff the branch
+               against origin/${{ github.base_ref }} and report Critical,
+               Important and Suggestion findings with file:line.
+            2. Post the subagent's findings as a single PR comment with
+               `gh pr comment`.
+            3. Write the file review-verdict.txt in the repository root. Its
+               first line must be exactly BLOCKER if there is any Critical
+               finding, otherwise exactly PASS.
           claude_args: |
-            --max-turns 15
-            --allowedTools "Read,Grep,Glob,Bash(git diff:*),Bash(git log:*)"
+            --max-turns 25
+            --allowedTools "Agent,Read,Grep,Glob,Write,Bash(git diff:*),Bash(git log:*),Bash(gh pr comment:*)"
+
+      # The action exits 0 whatever the review says, and also when it skips
+      # itself (e.g. a PR that edits this workflow). Fail closed: no verdict
+      # file means the review did not run.
+      - name: Enforce review verdict
+        run: |
+          if [ ! -f review-verdict.txt ]; then
+            echo "::error::Claude review produced no verdict (skipped or failed)"
+            exit 1
+          fi
+          cat review-verdict.txt
+          if [ "$(head -n1 review-verdict.txt)" = "BLOCKER" ]; then
+            echo "::error::Code review found a blocker"
+            exit 1
+          fi
