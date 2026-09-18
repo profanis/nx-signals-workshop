@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  # ------------------------------------------------------------------
+  # 1. The ordinary build. Nothing to do with Claude.
+  #    This is the part that reads the COMMIT, not your working tree.
+  # ------------------------------------------------------------------
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # Nx affected needs history
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint, test, build
+        run: npx nx run-many -t lint,test,build
+
+  # ------------------------------------------------------------------
+  # 2. The review gate. Runs your own .claude/agents/code-reviewer.md
+  #    against the pull request diff.
+  # ------------------------------------------------------------------
+  review:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: read
+      id-token: write # required by the action's GitHub App auth
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # needs the base commit to diff against
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Review the changes on this pull request using the
+            code-reviewer subagent defined in .claude/agents/.
+
+            Diff the branch against origin/${{ github.base_ref }}.
+            Report Critical, Important and Suggestion findings.
+            Fail loudly if a blocker is found.
+          claude_args: |
+            --max-turns 15
+            --allowedTools "Read,Grep,Glob,Bash(git diff:*),Bash(git log:*)"
