@@ -3,17 +3,32 @@
     <mat-card-title>{{ product().name }}</mat-card-title>
   </mat-card-header>
 
-  <img
-    mat-card-image
-    [ngSrc]="product().imageUrl"
-    [alt]="product().name"
-    width="400"
-    height="300"
-    priority
-  />
+  <div class="image-container">
+    <img
+      mat-card-image
+      [ngSrc]="product().imageUrl"
+      [alt]="product().name"
+      width="400"
+      height="300"
+      priority
+    />
+
+    @if (isOnSale()) {
+    <span class="sale-badge">Sale</span>
+    }
+  </div>
 
   <mat-card-content>
-    <p class="price">$123</p>
+    @if (isOnSale()) {
+    <p class="price price--sale">
+      <span class="sale-price">{{ salePrice() | currency }}</span>
+      <span class="original-price">
+        <span class="visually-hidden">Was </span>{{ price() | currency }}
+      </span>
+    </p>
+    } @else {
+    <p class="price">{{ price() | currency }}</p>
+    }
   </mat-card-content>
 
   <mat-card-actions>

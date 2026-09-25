@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   input,
   output,
 } from '@angular/core';
@@ -8,6 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
+  CurrencyPipe,
   IMAGE_LOADER,
   ImageLoaderConfig,
   NgOptimizedImage,
@@ -22,6 +24,7 @@ import { ProductsResponse } from '@workshop/catalogue-types';
     MatIconModule,
     NgOptimizedImage,
     RouterLink,
+    CurrencyPipe,
   ],
   providers: [
     {
@@ -37,7 +40,14 @@ import { ProductsResponse } from '@workshop/catalogue-types';
 })
 export class ProductCardComponent {
   product = input.required<ProductsResponse>();
+  price = input.required<number>();
+  salePrice = input<number>();
   toggleFavorite = output<string>();
+
+  isOnSale = computed(() => {
+    const salePrice = this.salePrice();
+    return salePrice !== undefined && salePrice < this.price();
+  });
 
   onToggleFavorite(event: Event): void {
     event.stopPropagation();

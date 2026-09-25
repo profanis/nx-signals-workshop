@@ -20,11 +20,57 @@ mat-card-title {
   font-weight: 500;
 }
 
+$sale-color: #d85a30;
+
+.image-container {
+  position: relative;
+}
+
+.sale-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background-color: $sale-color;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 11px;
+  letter-spacing: 0.22px;
+}
+
 .price {
   font-size: 1.5rem;
   font-weight: 600;
   color: #1976d2;
   margin: 8px 0;
+
+  &--sale {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+}
+
+.sale-price {
+  color: $sale-color;
+}
+
+.original-price {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #9e9e9e;
+  text-decoration: line-through;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 mat-card-actions {

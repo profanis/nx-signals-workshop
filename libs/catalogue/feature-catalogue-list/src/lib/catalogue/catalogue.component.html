@@ -53,6 +53,8 @@ state.products()!.length;
         @for (product of productsWithFavourites()!; track product.id) {
         <lib-ui-product-card
           [product]="product"
+          [price]="123"
+          [salePrice]="90"
           (toggleFavorite)="onToggleFavorite($event)"
         />
         } @empty {
