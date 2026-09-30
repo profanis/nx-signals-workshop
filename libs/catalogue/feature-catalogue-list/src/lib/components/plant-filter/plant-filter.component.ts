@@ -19,7 +19,7 @@ import { FormsModule } from '@angular/forms';
         matInput
         type="text"
         [value]="searchTerm()"
-        (input)="search.emit($event.target.value)"
+        (input)="searchChange.emit($event.target.value)"
         placeholder="Search by plant name..."
         aria-label="Search for plants by name"
       />
@@ -41,6 +41,5 @@ import { FormsModule } from '@angular/forms';
 export class PlantFilterComponent {
   // TODO: Add signal input
   searchTerm = input<string>();
-  // TODO: Add output for search term changes
-  search = output<string>();
+  searchChange = output<string>();
 }

@@ -1,0 +1,18 @@
+@let review = this.review();
+<mat-card class="review-card" appearance="raised">
+  <div class="review-header">
+    <span
+      class="review-avatar"
+      aria-hidden="true"
+      [style.background-color]="avatarColour()"
+    >
+      {{ initials() }}
+    </span>
+    <span class="review-author">{{ review.author }}</span>
+    <time class="review-date" [attr.datetime]="review.createdAt">
+      {{ review.createdAt | date: 'MMM yyyy' }}
+    </time>
+  </div>
+  <lib-star-rating class="review-rating" [value]="review.rating" />
+  <p class="review-text">{{ review.text }}</p>
+</mat-card>

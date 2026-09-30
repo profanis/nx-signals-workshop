@@ -1,0 +1,57 @@
+<mat-card class="review-form-card" appearance="raised">
+  <form class="review-form" novalidate (submit)="onSubmit($event)">
+    <h3 class="form-title">Write a review</h3>
+
+    <div class="field">
+      <span id="rating-label" class="field-label" [class.invalid]="ratingError()">
+        Your rating <span aria-hidden="true">*</span>
+      </span>
+      <lib-star-rating
+        interactive
+        [formField]="reviewForm.rating"
+      />
+      @if (ratingError(); as error) {
+      <p class="field-error" id="rating-error" role="alert">
+        <mat-icon aria-hidden="true">error_outline</mat-icon>
+        {{ error }}
+      </p>
+      }
+    </div>
+
+    <div class="field">
+      <label for="review-text" class="field-label" [class.invalid]="textError()">
+        Your review <span aria-hidden="true">*</span>
+      </label>
+      <textarea
+        id="review-text"
+        class="review-textarea"
+        rows="4"
+        placeholder="Share your experience…"
+        aria-required="true"
+        [class.invalid]="textError()"
+        [attr.aria-invalid]="!!textError()"
+        [attr.aria-describedby]="textError() ? 'review-counter text-error' : 'review-counter'"
+        [formField]="reviewForm.text"
+      ></textarea>
+      <p id="review-counter" class="counter" [class.invalid]="textError()">
+        {{ textLength() }} / {{ maxTextLength }}@if (textError()) { — minimum
+        {{ minTextLength }} characters}
+      </p>
+      @if (textError(); as error) {
+      <p class="field-error" id="text-error" role="alert">
+        <mat-icon aria-hidden="true">error_outline</mat-icon>
+        {{ error }}
+      </p>
+      }
+    </div>
+
+    <button
+      mat-flat-button
+      type="submit"
+      class="submit-button"
+      [disabled]="reviewForm().invalid()"
+    >
+      Submit review
+    </button>
+  </form>
+</mat-card>

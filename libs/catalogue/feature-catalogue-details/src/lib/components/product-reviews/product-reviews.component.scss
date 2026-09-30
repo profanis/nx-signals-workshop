@@ -1,0 +1,84 @@
+:host {
+  display: block;
+}
+
+.reviews-header {
+  margin-bottom: 24px;
+
+  h2 {
+    margin: 0 0 4px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #212121;
+  }
+}
+
+.reviews-count {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #9e9e9e;
+}
+
+.reviews-subtitle {
+  margin: 0;
+  color: #757575;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.share-experience {
+  margin-top: 40px;
+}
+
+.share-heading {
+  margin: 0 0 16px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #212121;
+}
+
+.success-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border: 1px solid #a5d6a7;
+  border-radius: 4px;
+  background: #e8f5e9;
+  color: #2e5e1a;
+  font-weight: 500;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #33691e;
+    outline-offset: 2px;
+  }
+}
+
+.success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #33691e;
+  color: #fff;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}

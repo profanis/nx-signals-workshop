@@ -1,0 +1,91 @@
+$error: var(--mat-sys-error, #d32f2f);
+
+:host {
+  display: block;
+}
+
+.review-form-card {
+  padding: 20px;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #212121;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #424242;
+
+  &.invalid {
+    color: $error;
+  }
+}
+
+.review-textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  border: 1px solid #bdbdbd;
+  border-radius: 4px;
+  background: #fafafa;
+  font: inherit;
+  resize: vertical;
+
+  &:focus-visible {
+    outline: 2px solid var(--mat-sys-primary, #2e7d32);
+    outline-offset: 1px;
+  }
+
+  &.invalid {
+    border-color: $error;
+  }
+}
+
+.counter {
+  margin: 0;
+  align-self: flex-end;
+  font-size: 0.75rem;
+  color: #757575;
+
+  &.invalid {
+    color: $error;
+  }
+}
+
+.field-error {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  font-size: 0.75rem;
+  color: $error;
+
+  mat-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.submit-button {
+  width: 100%;
+  // Figma uses a rectangular button rather than Material's pill shape.
+  --mat-button-filled-container-shape: 4px;
+}

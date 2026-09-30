@@ -35,7 +35,16 @@
       "@workshop/catalogue-data-access": [
         "libs/catalogue/data-access/src/index.ts"
       ],
-      "@workshop/shared-types": ["libs/shared/types/src/index.ts"]
+      "@workshop/shared-types": ["libs/shared/types/src/index.ts"],
+      "@workshop/catalogue-data-access-reviews": [
+        "libs/catalogue/data-access-reviews/src/index.ts"
+      ],
+      "@workshop/shared-ui-star-rating": [
+        "libs/shared/ui/ui-star-rating/src/index.ts"
+      ],
+      "@workshop/shared-ui-review-card": [
+        "libs/shared/ui/ui-review-card/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

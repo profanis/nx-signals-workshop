@@ -1,4 +1,6 @@
 import { Route } from '@angular/router';
+import { provideStates } from '@ngxs/store';
+import { ReviewsState } from '@workshop/catalogue-data-access-reviews';
 
 export const catalogueRoutes: Route[] = [
   {
@@ -10,6 +12,7 @@ export const catalogueRoutes: Route[] = [
   },
   {
     path: ':id',
+    providers: [provideStates([ReviewsState])],
     loadComponent: () =>
       import('@workshop/catalogue/feature-catalogue-details').then(
         (m) => m.ProductDetailsComponent

@@ -24,7 +24,7 @@ state.products()!.length;
       <section class="search-section">
         <lib-plant-filter
           [searchTerm]="state.searchTerm()"
-          (search)="onSearchChange($event)"
+          (searchChange)="onSearchChange($event)"
         />
         <!-- <mat-form-field appearance="outline" class="search-field">
           <mat-label>Search plants</mat-label>

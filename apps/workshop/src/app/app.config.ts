@@ -6,6 +6,7 @@ import {
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
+import { provideStore } from '@ngxs/store';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,5 +14,6 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(appRoutes, withComponentInputBinding()),
+    provideStore([]),
   ],
 };

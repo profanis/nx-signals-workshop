@@ -94,62 +94,6 @@ mat-divider {
   }
 }
 
-.comments-section {
-  h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin: 0 0 16px 0;
-    color: #333;
-  }
-
-  mat-list {
-    padding: 0;
-  }
-
-  .comment-item {
-    height: auto;
-    padding: 16px 0;
-  }
-
-  .comment-content {
-    width: 100%;
-  }
-
-  .comment-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-  }
-
-  .comment-user {
-    font-weight: 600;
-    color: #333;
-  }
-
-  .comment-rating {
-    display: flex;
-    gap: 2px;
-
-    .star-icon {
-      font-size: 16px;
-      width: 16px;
-      height: 16px;
-      color: #ddd;
-
-      &.filled {
-        color: #ffc107;
-      }
-    }
-  }
-
-  .comment-text {
-    margin: 0;
-    line-height: 1.5;
-    color: #666;
-  }
-}
-
 mat-card-actions {
   padding: 16px;
   display: flex;
@@ -209,14 +153,6 @@ mat-card-actions {
     }
   }
 
-  .comments-section {
-    .comment-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 4px;
-    }
-  }
-
   mat-card-actions {
     .add-to-cart-btn {
       width: 100%;
@@ -240,8 +176,7 @@ mat-card-actions {
     }
   }
 
-  .product-description h3,
-  .comments-section h3 {
+  .product-description h3 {
     font-size: 1.125rem;
   }
 }
