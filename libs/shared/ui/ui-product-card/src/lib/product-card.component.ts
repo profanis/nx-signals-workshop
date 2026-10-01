@@ -1,6 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
+  inject,
   input,
   output,
 } from '@angular/core';
@@ -14,6 +16,8 @@ import {
 } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ProductsResponse } from '@workshop/catalogue-types';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { FavoritesState } from '@workshop/catalogue-data-access';
 @Component({
   selector: 'lib-ui-product-card',
   imports: [
@@ -38,6 +42,11 @@ import { ProductsResponse } from '@workshop/catalogue-types';
 export class ProductCardComponent {
   product = input.required<ProductsResponse>();
   toggleFavorite = output<string>();
+
+  private readonly favoritesState = inject(FavoritesState);
+  isFavorite = computed(() =>
+    this.favoritesState.isFavorite(this.product().id),
+  );
 
   onToggleFavorite(event: Event): void {
     event.stopPropagation();

@@ -21,11 +21,11 @@
       mat-icon-button
       (click)="onToggleFavorite($event)"
       [attr.aria-label]="
-        product().isFavorite ? 'Remove from favorites' : 'Add to favorites'
+        isFavorite() ? 'Remove from favorites' : 'Add to favorites'
       "
     >
       <mat-icon>{{
-        product().isFavorite ? 'favorite' : 'favorite_border'
+        isFavorite() ? 'favorite' : 'favorite_border'
       }}</mat-icon>
     </button>
   </mat-card-actions>
