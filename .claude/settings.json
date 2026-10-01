@@ -1,4 +1,5 @@
 {
+  "workflowSizeGuideline": "small",
   "permissions": {
     "allow": [
       "Read(./apps/**)",
@@ -11,8 +12,8 @@
       "Read(./jest.config*)",
       "Read(./jest.preset*)",
       "Read(./.claude/**)",
-      "Write(./apps/**)",
-      "Write(./libs/**)",
+      "Edit(./apps/**)",
+      "Edit(./libs/**)",
       "Bash(npx nx serve *)",
       "Bash(npx nx build *)",
       "Bash(npx nx test *)",
@@ -41,16 +42,7 @@
   "hooks": {
     "PostToolUse": [
       {
-        "matcher": "Write(./apps/**/*.ts|./libs/**/*.ts)",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "npx nx format:write"
-          }
-        ]
-      },
-      {
-        "matcher": "Write(./apps/**/*.html|./libs/**/*.html)",
+        "matcher": "Write|Edit|MultiEdit",
         "hooks": [
           {
             "type": "command",

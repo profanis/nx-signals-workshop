@@ -62,7 +62,7 @@ This is an **Nx monorepo** (`npm` package manager) for an Angular 21 workshop ap
 
 ### Library structure
 
-Library directories follow the naming pattern `<scope>-<type>-<name>` (e.g. `catalogue-data-access`). Each lib exports only through its `index.ts` barrel file — never import from internal paths directly. Tag every new lib with `scope:<domain>` and `type:<feature|ui|data-access|util>`.
+Library directories follow the naming pattern `<scope>-<type>-<name>` (e.g. `catalogue-data-access`). Each lib exports only through its `index.ts` barrel file — never import from internal paths directly. Tag every new lib with `scope:<domain>` and `type:<feature|ui|data-access|util|model>`.
 
 **Dependency direction:** feature libs may depend on `ui` and `data-access` libs — never the reverse.
 
@@ -89,7 +89,7 @@ libs/
 
 ### State management pattern
 
-State is managed with Angular Signals — no NgRx or other state library. Prefer signals over RxJS for local component state; RxJS is used only at the data-access boundary (e.g. `rxResource`, `HttpClient`).
+State is managed with Angular Signals — or with NGXS library. Prefer signals over RxJS for local component state; RxJS is used only at the data-access boundary (e.g. `rxResource`, `HttpClient`).
 
 - **Global state** (`providedIn: 'root'`): `FavoritesState` — holds a `Set<string>` of favorite product IDs via a `signal`, with a `computed` count.
 - **Local state** (provided in component): `CatalogueLocalState`, `ProductDetailState` — scoped to the feature component via `providers: [...]` in `@Component`. These use `rxResource` to load data reactively from `ProductsApi`, and `linkedSignal` to accumulate paginated results.
@@ -101,6 +101,7 @@ State is managed with Angular Signals — no NgRx or other state library. Prefer
 ### Import paths
 
 All cross-library imports use path aliases defined in `tsconfig.base.json`. The pattern is `@workshop/<domain>-<type>`, e.g.:
+
 - `@workshop/catalogue-data-access`
 - `@workshop/catalogue-types`
 - `@workshop/shared-ui-product-card`
