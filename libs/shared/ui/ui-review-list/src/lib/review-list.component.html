@@ -1,0 +1,7 @@
+<ul class="reviews-list">
+  @for (review of reviews(); track review.id) {
+  <li>
+    <lib-review-card [review]="review" />
+  </li>
+  }
+</ul>

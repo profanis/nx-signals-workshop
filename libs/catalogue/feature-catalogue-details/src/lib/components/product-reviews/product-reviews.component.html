@@ -4,13 +4,7 @@
     <p class="reviews-subtitle">What our customers are saying</p>
   </header>
 
-  <ul class="reviews-list">
-    @for (review of reviews(); track review.id) {
-    <li>
-      <lib-review-card [review]="review" />
-    </li>
-    }
-  </ul>
+  <lib-review-list [reviews]="reviews()" />
 
   <section class="share-experience" aria-labelledby="share-heading">
     <h2 id="share-heading" class="share-heading">Share your experience</h2>
