@@ -14,12 +14,12 @@ import {
   LoadReviews,
   ReviewsSelectors,
 } from '@workshop/catalogue-data-access-reviews';
-import { ReviewCardComponent } from '@workshop/shared-ui-review-card';
+import { ReviewListComponent } from '@workshop/shared-ui-review-list';
 import { ReviewFormComponent, ReviewFormValue } from '../review-form/review-form.component';
 
 @Component({
   selector: 'lib-product-reviews',
-  imports: [MatIconModule, ReviewCardComponent, ReviewFormComponent],
+  imports: [MatIconModule, ReviewListComponent, ReviewFormComponent],
   templateUrl: './product-reviews.component.html',
   styleUrl: './product-reviews.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

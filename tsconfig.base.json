@@ -44,6 +44,9 @@
       ],
       "@workshop/shared-ui-review-card": [
         "libs/shared/ui/ui-review-card/src/index.ts"
+      ],
+      "@workshop/shared-ui-review-list": [
+        "libs/shared/ui/ui-review-list/src/index.ts"
       ]
     }
   },
