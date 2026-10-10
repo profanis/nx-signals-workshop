@@ -7,6 +7,7 @@ import {
 } from './reviews.state';
 
 export class ReviewsSelectors {
+  // this is a change
   @Selector([ReviewsState])
   static reviews(state: ReviewsStateModel): Review[] {
     return state.reviews;

@@ -32,6 +32,8 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # The local Stop/PostToolUse hooks are meant for interactive sessions, not CI.
+          # TEMPORARY: debug which tool call is denied. Remove after one run (logs are public to repo readers).
+          show_full_output: true
           settings: |
             { "disableAllHooks": true }
           prompt: |
@@ -45,7 +47,8 @@ jobs:
             2. Delegate the review to the `my-code-reviewer` sub-agent. Pass it the list of changed files
                and tell it to report every violation with: file path, line number (in the new version
                of the file), the rule violated, and a one-sentence explanation.
-               Only changed lines/files are in scope; do not report pre-existing issues elsewhere.
+               Review the full content of every changed file, not only the changed lines.
+               Ignore files that were not changed in this PR.
             3. Do NOT post comments yourself; the next workflow step does that.
                Return the structured result. `violations` must contain every blocking violation reported
                by the sub-agent (empty array if none). `file` is repo-relative and `line` is the line
