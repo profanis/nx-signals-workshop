@@ -1,6 +1,8 @@
 <section class="product-reviews" aria-labelledby="reviews-heading">
   <header class="reviews-header">
-    <h2 id="reviews-heading">Reviews <span class="reviews-count">({{ count() }})</span></h2>
+    <h2 id="reviews-heading">
+      Reviews <span class="reviews-count">({{ count() }})</span>
+    </h2>
     <p class="reviews-subtitle">What our customers are saying</p>
   </header>
 
@@ -9,14 +11,14 @@
   <section class="share-experience" aria-labelledby="share-heading">
     <h2 id="share-heading" class="share-heading">Share your experience</h2>
     @if (submitStatus() === 'success') {
-    <div #successBanner class="success-banner" role="status" tabindex="-1">
-      <span class="success-icon" aria-hidden="true">
-        <mat-icon>check</mat-icon>
-      </span>
-      Thank you! Your review has been submitted.
-    </div>
+      <div #successBanner class="success-banner" role="status" tabindex="-1">
+        <span class="success-icon" aria-hidden="true">
+          <mat-icon>check</mat-icon>
+        </span>
+        Thank you! Your review has been submitted.
+      </div>
     } @else {
-    <lib-review-form (submitted)="onReviewSubmitted($event)" />
+      <lib-review-form (submitted)="onReviewSubmitted($event)" />
     }
   </section>
 </section>

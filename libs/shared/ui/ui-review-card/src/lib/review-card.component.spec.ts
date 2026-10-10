@@ -59,18 +59,44 @@ describe('ReviewCardComponent', () => {
     const element = render({ ...alex, rating: 3 });
 
     expect(
-      element.querySelector('lib-star-rating [role="img"]')?.getAttribute('aria-label')
+      element
+        .querySelector('lib-star-rating [role="img"]')
+        ?.getAttribute('aria-label'),
     ).toBe('3 out of 5 stars');
   });
 
   it('gives the same author the same avatar colour', () => {
     const first = render(alex);
-    const firstColour = (first.querySelector('.review-avatar') as HTMLElement).style.backgroundColor;
+    const firstColour = (first.querySelector('.review-avatar') as HTMLElement)
+      .style.backgroundColor;
 
-    const second = render({ ...alex, id: 'r-2', text: 'Another review by the same author.' });
-    const secondColour = (second.querySelector('.review-avatar') as HTMLElement).style.backgroundColor;
+    const second = render({
+      ...alex,
+      id: 'r-2',
+      text: 'Another review by the same author.',
+    });
+    const secondColour = (second.querySelector('.review-avatar') as HTMLElement)
+      .style.backgroundColor;
 
     expect(firstColour).not.toBe('');
     expect(secondColour).toBe(firstColour);
+  });
+
+  it('shows the top reviewer badge when the author has more than 6 reviews', () => {
+    const element = render({ ...alex, authorReviewCount: 7 });
+
+    expect(text(element, '.review-badge')).toBe('Top reviewer');
+  });
+
+  it('hides the top reviewer badge when the author has exactly 6 reviews', () => {
+    const element = render({ ...alex, authorReviewCount: 6 });
+
+    expect(element.querySelector('.review-badge')).toBeNull();
+  });
+
+  it('hides the top reviewer badge when the review count is unknown', () => {
+    const element = render(alex);
+
+    expect(element.querySelector('.review-badge')).toBeNull();
   });
 });

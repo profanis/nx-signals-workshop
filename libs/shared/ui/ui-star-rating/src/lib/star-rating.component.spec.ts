@@ -38,7 +38,9 @@ describe('StarRatingComponent (read-only)', () => {
     const element = render(5);
 
     const icons = Array.from(element.querySelectorAll('mat-icon'));
-    expect(icons.every((icon) => icon.getAttribute('aria-hidden') === 'true')).toBe(true);
+    expect(
+      icons.every((icon) => icon.getAttribute('aria-hidden') === 'true'),
+    ).toBe(true);
   });
 });
 
@@ -66,7 +68,8 @@ describe('StarRatingComponent (interactive, signal forms)', () => {
   }
 
   function press(key: string) {
-    const target = radios().find((radio) => radio.tabIndex === 0) ?? radios()[0];
+    const target =
+      radios().find((radio) => radio.tabIndex === 0) ?? radios()[0];
     target.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true }));
     fixture.detectChanges();
   }
@@ -81,7 +84,7 @@ describe('StarRatingComponent (interactive, signal forms)', () => {
       new FocusEvent('focusout', {
         bubbles: true,
         relatedTarget: element.querySelector('#outside'),
-      })
+      }),
     );
     fixture.detectChanges();
   }
@@ -109,13 +112,9 @@ describe('StarRatingComponent (interactive, signal forms)', () => {
     fixture.detectChanges();
 
     expect(host.reviewForm.rating().value()).toBe(4);
-    expect(radios().map((radio) => radio.getAttribute('aria-checked'))).toEqual([
-      'false',
-      'false',
-      'false',
-      'true',
-      'false',
-    ]);
+    expect(radios().map((radio) => radio.getAttribute('aria-checked'))).toEqual(
+      ['false', 'false', 'false', 'true', 'false'],
+    );
   });
 
   it('reflects a value set on the form model', () => {
@@ -126,11 +125,15 @@ describe('StarRatingComponent (interactive, signal forms)', () => {
   });
 
   it('only the checked star (or the first when empty) is in the tab order', () => {
-    expect(radios().map((radio) => radio.tabIndex)).toEqual([0, -1, -1, -1, -1]);
+    expect(radios().map((radio) => radio.tabIndex)).toEqual([
+      0, -1, -1, -1, -1,
+    ]);
 
     setRating(3);
 
-    expect(radios().map((radio) => radio.tabIndex)).toEqual([-1, -1, 0, -1, -1]);
+    expect(radios().map((radio) => radio.tabIndex)).toEqual([
+      -1, -1, 0, -1, -1,
+    ]);
   });
 
   it('ArrowRight increases and ArrowLeft decreases the value within 1–5', () => {

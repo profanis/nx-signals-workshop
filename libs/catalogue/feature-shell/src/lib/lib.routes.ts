@@ -7,7 +7,7 @@ export const catalogueRoutes: Route[] = [
     path: '',
     loadComponent: () =>
       import('@workshop/catalogue-feature-catalogue-list').then(
-        (m) => m.CatalogueComponent
+        (m) => m.CatalogueComponent,
       ),
   },
   {
@@ -15,7 +15,7 @@ export const catalogueRoutes: Route[] = [
     providers: [provideStates([ReviewsState])],
     loadComponent: () =>
       import('@workshop/catalogue/feature-catalogue-details').then(
-        (m) => m.ProductDetailsComponent
+        (m) => m.ProductDetailsComponent,
       ),
   },
 ];

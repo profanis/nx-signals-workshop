@@ -20,7 +20,7 @@ describe('ReviewFormComponent', () => {
 
   function errors() {
     return Array.from(element.querySelectorAll('.field-error')).map((error) =>
-      error.textContent?.replace('error_outline', '').trim()
+      error.textContent?.replace('error_outline', '').trim(),
     );
   }
 
@@ -42,7 +42,10 @@ describe('ReviewFormComponent', () => {
 
   function blurStars() {
     element.querySelector('[role="radio"]')?.dispatchEvent(
-      new FocusEvent('focusout', { bubbles: true, relatedTarget: textarea() })
+      new FocusEvent('focusout', {
+        bubbles: true,
+        relatedTarget: textarea(),
+      }),
     );
     fixture.detectChanges();
   }
@@ -51,7 +54,9 @@ describe('ReviewFormComponent', () => {
     fixture = TestBed.createComponent(ReviewFormComponent);
     element = fixture.nativeElement;
     emitted = [];
-    fixture.componentInstance.submitted.subscribe((value) => emitted.push(value));
+    fixture.componentInstance.submitted.subscribe((value) =>
+      emitted.push(value),
+    );
     fixture.detectChanges();
   });
 
@@ -73,7 +78,9 @@ describe('ReviewFormComponent', () => {
     blurTextarea();
 
     expect(errors()).toEqual(['Review is too short (min 20 characters)']);
-    expect(counter().textContent?.trim()).toBe('2 / 500 — minimum 20 characters');
+    expect(counter().textContent?.trim()).toBe(
+      '2 / 500 — minimum 20 characters',
+    );
     expect(counter().classList).toContain('invalid');
   });
 

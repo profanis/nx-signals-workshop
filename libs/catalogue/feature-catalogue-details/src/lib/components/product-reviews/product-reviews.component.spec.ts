@@ -21,22 +21,24 @@ describe('ProductReviewsComponent', () => {
 
   function authors(element: HTMLElement) {
     return [...element.querySelectorAll('lib-review-card .review-author')].map(
-      (author) => author.textContent?.trim()
+      (author) => author.textContent?.trim(),
     );
   }
 
   it('shows the review count in the heading', async () => {
     const element = await render(1);
 
-    expect(element.querySelector('h2')?.textContent?.trim()).toBe('Reviews (3)');
+    expect(element.querySelector('h2')?.textContent?.trim()).toBe(
+      'Reviews (3)',
+    );
   });
 
   it('shows the subtitle', async () => {
     const element = await render(1);
 
-    expect(element.querySelector('.reviews-subtitle')?.textContent?.trim()).toBe(
-      'What our customers are saying'
-    );
+    expect(
+      element.querySelector('.reviews-subtitle')?.textContent?.trim(),
+    ).toBe('What our customers are saying');
   });
 
   it('renders the seeded reviews newest first', async () => {
@@ -63,7 +65,9 @@ describe('ProductReviewsComponent', () => {
       textarea.value = 'Healthy plant, arrived well packed and on time.';
       textarea.dispatchEvent(new Event('input'));
       fixture.detectChanges();
-      (element.querySelector('button[type="submit"]') as HTMLButtonElement).click();
+      (
+        element.querySelector('button[type="submit"]') as HTMLButtonElement
+      ).click();
       await fixture.whenStable();
     }
 
@@ -81,9 +85,9 @@ describe('ProductReviewsComponent', () => {
       await submitReview(element);
 
       expect(element.querySelector('lib-review-form')).toBeNull();
-      expect(element.querySelector('[role="status"]')?.textContent?.trim()).toContain(
-        'Thank you! Your review has been submitted.'
-      );
+      expect(
+        element.querySelector('[role="status"]')?.textContent?.trim(),
+      ).toContain('Thank you! Your review has been submitted.');
     });
 
     it('moves keyboard focus to the success banner', async () => {
@@ -91,7 +95,9 @@ describe('ProductReviewsComponent', () => {
 
       await submitReview(element);
 
-      expect(document.activeElement).toBe(element.querySelector('[role="status"]'));
+      expect(document.activeElement).toBe(
+        element.querySelector('[role="status"]'),
+      );
     });
 
     it('puts the new review first and updates the count', async () => {
@@ -99,7 +105,9 @@ describe('ProductReviewsComponent', () => {
 
       await submitReview(element);
 
-      expect(element.querySelector('h2')?.textContent?.trim()).toBe('Reviews (4)');
+      expect(element.querySelector('h2')?.textContent?.trim()).toBe(
+        'Reviews (4)',
+      );
       expect(authors(element)[0]).toBe('You');
     });
 
@@ -112,7 +120,9 @@ describe('ProductReviewsComponent', () => {
 
       expect(element.querySelector('lib-review-form')).not.toBeNull();
       expect(element.querySelector('[role="status"]')).toBeNull();
-      expect(element.querySelector('h2')?.textContent?.trim()).toBe('Reviews (3)');
+      expect(element.querySelector('h2')?.textContent?.trim()).toBe(
+        'Reviews (3)',
+      );
     });
   });
 });

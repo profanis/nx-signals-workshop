@@ -15,7 +15,10 @@ import {
   ReviewsSelectors,
 } from '@workshop/catalogue-data-access-reviews';
 import { ReviewListComponent } from '@workshop/shared-ui-review-list';
-import { ReviewFormComponent, ReviewFormValue } from '../review-form/review-form.component';
+import {
+  ReviewFormComponent,
+  ReviewFormValue,
+} from '../review-form/review-form.component';
 
 @Component({
   selector: 'lib-product-reviews',
@@ -48,6 +51,8 @@ export class ProductReviewsComponent {
   }
 
   onReviewSubmitted(review: ReviewFormValue) {
-    this.store.dispatch(new AddReview({ ...review, productId: this.productId() }));
+    this.store.dispatch(
+      new AddReview({ ...review, productId: this.productId() }),
+    );
   }
 }
