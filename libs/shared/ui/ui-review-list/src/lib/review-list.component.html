@@ -1,7 +1,12 @@
+@if (averageRating(); as average) {
+  <p class="reviews-average">
+    Average rating: <strong>{{ average | number: '1.1-1' }}</strong> / 5
+  </p>
+}
 <ul class="reviews-list">
   @for (review of reviews(); track review.id) {
-  <li>
-    <lib-review-card [review]="review" />
-  </li>
+    <li>
+      <lib-review-card [review]="review" />
+    </li>
   }
 </ul>

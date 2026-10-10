@@ -14,20 +14,20 @@
     />
 
     @if (isOnSale()) {
-    <span class="sale-badge">Sale</span>
+      <span class="sale-badge">Sale</span>
     }
   </div>
 
   <mat-card-content>
     @if (isOnSale()) {
-    <p class="price price--sale">
-      <span class="sale-price">{{ salePrice() | currency }}</span>
-      <span class="original-price">
-        <span class="visually-hidden">Was </span>{{ price() | currency }}
-      </span>
-    </p>
+      <p class="price price--sale">
+        <span class="sale-price">{{ salePrice() | currency }}</span>
+        <span class="original-price">
+          <span class="visually-hidden">Was </span>{{ price() | currency }}
+        </span>
+      </p>
     } @else {
-    <p class="price">{{ price() | currency }}</p>
+      <p class="price">{{ price() | currency }}</p>
     }
   </mat-card-content>
 

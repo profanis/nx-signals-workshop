@@ -21,7 +21,10 @@ export interface ReviewsStateModel {
 @Injectable()
 export class ReviewsState {
   @Action(LoadReviews)
-  loadReviews(ctx: StateContext<ReviewsStateModel>, { productId }: LoadReviews) {
+  loadReviews(
+    ctx: StateContext<ReviewsStateModel>,
+    { productId }: LoadReviews,
+  ) {
     ctx.setState({
       productId,
       reviews: seedReviews(productId),

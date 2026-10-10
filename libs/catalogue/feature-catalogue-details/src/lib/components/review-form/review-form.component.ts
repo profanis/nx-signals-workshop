@@ -56,7 +56,7 @@ export class ReviewFormComponent {
             kind: 'tooShort',
             message: `Review is too short (min ${MIN_TEXT_LENGTH} characters)`,
           }
-        : undefined
+        : undefined,
     );
     maxLength(path.text, MAX_TEXT_LENGTH);
   });

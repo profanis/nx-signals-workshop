@@ -1,0 +1,126 @@
+name: Claude Code Review Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: claude-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    name: Convention review
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Review with my-code-reviewer sub-agent
+        id: claude
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # The local Stop/PostToolUse hooks are meant for interactive sessions, not CI.
+          settings: |
+            { "disableAllHooks": true }
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            You are a CI gate for this pull request.
+
+            1. List the files changed in this PR with `gh pr diff ${{ github.event.pull_request.number }} --name-only`
+               and read the full diff with `gh pr diff ${{ github.event.pull_request.number }}`.
+            2. Delegate the review to the `my-code-reviewer` sub-agent. Pass it the list of changed files
+               and tell it to report every violation with: file path, line number (in the new version
+               of the file), the rule violated, and a one-sentence explanation.
+               Only changed lines/files are in scope; do not report pre-existing issues elsewhere.
+            3. Do NOT post comments yourself; the next workflow step does that.
+               Return the structured result. `violations` must contain every blocking violation reported
+               by the sub-agent (empty array if none). `file` is repo-relative and `line` is the line
+               number in the new version of the file.
+
+          claude_args: |
+            --allowedTools "Agent,Task,Read,Grep,Glob,Bash(gh pr diff:*),Bash(gh pr view:*)"
+            --json-schema '{"type":"object","properties":{"violations":{"type":"array","items":{"type":"object","properties":{"file":{"type":"string"},"line":{"type":"integer"},"rule":{"type":"string"},"explanation":{"type":"string"}},"required":["file","rule","explanation"]}}},"required":["violations"]}'
+
+      - name: Comment on PR
+        if: steps.claude.outputs.structured_output != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RESULT: ${{ steps.claude.outputs.structured_output }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          COUNT=$(echo "$RESULT" | jq '.violations | length')
+
+          if [ "$COUNT" -eq 0 ]; then
+            gh pr comment "$PR" --repo "$REPO" --body "✅ **my-code-reviewer:** no convention violations found."
+            exit 0
+          fi
+
+          SUMMARY=$(echo "$RESULT" | jq -r '
+            "## 🚫 my-code-reviewer: \(.violations | length) blocking violation(s)\n\n" +
+            "| File | Line | Rule | Explanation |\n| --- | --- | --- | --- |\n" +
+            ([.violations[] | "| `\(.file)` | \(.line // "-") | \(.rule) | \(.explanation) |"] | join("\n")) +
+            "\n\nThis PR is blocked until the violations are fixed."')
+
+          # One review: summary body + an inline comment on each violation that has a line.
+          echo "$RESULT" | jq --arg body "$SUMMARY" --arg sha "$HEAD_SHA" '{
+            commit_id: $sha,
+            event: "COMMENT",
+            body: $body,
+            comments: [.violations[] | select(.line != null) | {
+              path: .file,
+              line: .line,
+              side: "RIGHT",
+              body: "🚫 **Blocking: \(.rule)**\n\n\(.explanation)"
+            }]
+          }' > review.json
+
+          # GitHub rejects the whole review if any line is outside the diff; fall back to the summary only.
+          if ! gh api "repos/$REPO/pulls/$PR/reviews" --method POST --input review.json > /dev/null; then
+            echo "::warning::Inline comments rejected (line outside the diff); posting summary only."
+            gh pr comment "$PR" --repo "$REPO" --body "$SUMMARY"
+          fi
+
+      - name: Block PR on violations
+        env:
+          RESULT: ${{ steps.claude.outputs.structured_output }}
+        run: |
+          if [ -z "$RESULT" ]; then
+            echo "::error::Reviewer produced no structured result; failing closed."
+            exit 1
+          fi
+
+          COUNT=$(echo "$RESULT" | jq '.violations | length')
+          {
+            echo "## my-code-reviewer"
+            echo
+            if [ "$COUNT" -eq 0 ]; then
+              echo "✅ No convention violations found."
+            else
+              echo "🚫 $COUNT blocking violation(s):"
+              echo
+              echo "| File | Line | Rule | Explanation |"
+              echo "| --- | --- | --- | --- |"
+              echo "$RESULT" | jq -r '.violations[] | "| \(.file) | \(.line // "-") | \(.rule) | \(.explanation) |"'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "$COUNT" -gt 0 ]; then
+            echo "$RESULT" | jq -r '.violations[] | "::error file=\(.file),line=\(.line // 1)::\(.rule): \(.explanation)"'
+            exit 1
+          fi

@@ -9,6 +9,9 @@
       {{ initials() }}
     </span>
     <span class="review-author">{{ review.author }}</span>
+    @if (isTopReviewer()) {
+      <span class="review-badge">Top reviewer</span>
+    }
     <time class="review-date" [attr.datetime]="review.createdAt">
       {{ review.createdAt | date: 'MMM yyyy' }}
     </time>

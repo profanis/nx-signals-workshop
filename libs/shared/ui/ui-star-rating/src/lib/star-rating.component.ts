@@ -18,39 +18,43 @@ const MAX_STARS = 5;
   imports: [MatIconModule],
   template: `
     @if (interactive()) {
-    <span
-      class="stars interactive"
-      [class.invalid]="showInvalid()"
-      role="radiogroup"
-      aria-label="Rating"
-      (focusout)="onFocusout($event)"
-    >
-      @for (radio of radios(); track radio.value) {
-      <button
-        #radio
-        type="button"
-        class="radio"
-        role="radio"
-        [attr.aria-checked]="radio.checked"
-        [attr.aria-label]="radio.label"
-        [tabIndex]="radio.tabIndex"
-        (click)="select(radio.value)"
-        (keydown)="onKeydown($event)"
+      <span
+        class="stars interactive"
+        [class.invalid]="showInvalid()"
+        role="radiogroup"
+        aria-label="Rating"
+        (focusout)="onFocusout($event)"
       >
-        <mat-icon class="star" [class.filled]="radio.filled" aria-hidden="true">
-          {{ radio.filled ? 'star' : 'star_border' }}
-        </mat-icon>
-      </button>
-      }
-    </span>
+        @for (radio of radios(); track radio.value) {
+          <button
+            #radio
+            type="button"
+            class="radio"
+            role="radio"
+            [attr.aria-checked]="radio.checked"
+            [attr.aria-label]="radio.label"
+            [tabIndex]="radio.tabIndex"
+            (click)="select(radio.value)"
+            (keydown)="onKeydown($event)"
+          >
+            <mat-icon
+              class="star"
+              [class.filled]="radio.filled"
+              aria-hidden="true"
+            >
+              {{ radio.filled ? 'star' : 'star_border' }}
+            </mat-icon>
+          </button>
+        }
+      </span>
     } @else {
-    <span class="stars" role="img" [attr.aria-label]="label()">
-      @for (filled of stars(); track $index) {
-      <mat-icon class="star" [class.filled]="filled" aria-hidden="true">
-        {{ filled ? 'star' : 'star_border' }}
-      </mat-icon>
-      }
-    </span>
+      <span class="stars" role="img" [attr.aria-label]="label()">
+        @for (filled of stars(); track $index) {
+          <mat-icon class="star" [class.filled]="filled" aria-hidden="true">
+            {{ filled ? 'star' : 'star_border' }}
+          </mat-icon>
+        }
+      </span>
     }
   `,
   styleUrl: './star-rating.component.scss',
@@ -65,7 +69,7 @@ export class StarRatingComponent implements FormValueControl<number> {
   private radioButtons = viewChildren<ElementRef<HTMLButtonElement>>('radio');
 
   stars = computed(() =>
-    Array.from({ length: MAX_STARS }, (_, i) => i < this.value())
+    Array.from({ length: MAX_STARS }, (_, i) => i < this.value()),
   );
   showInvalid = computed(() => this.invalid() && this.touched());
   label = computed(() => `${this.value()} out of ${MAX_STARS} stars`);

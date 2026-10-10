@@ -113,7 +113,9 @@ describe('ReviewsState', () => {
 
       store.dispatch(new AddReview(newReview));
 
-      expect(store.selectSnapshot(ReviewsSelectors.submitStatus)).toBe('success');
+      expect(store.selectSnapshot(ReviewsSelectors.submitStatus)).toBe(
+        'success',
+      );
     });
   });
 

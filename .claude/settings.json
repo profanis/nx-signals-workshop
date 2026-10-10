@@ -50,6 +50,9 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      { "hooks": [{ "type": "command", "command": ".claude/hooks/review.sh" }] }
     ]
   },
   "enabledMcpjsonServers": ["angular-cli"],
