@@ -13,6 +13,7 @@ export class ReviewsSelectors {
     return state.reviews;
   }
 
+  // this is a change
   @Selector([ReviewsState])
   static count(state: ReviewsStateModel): number {
     return state.reviews.length;
